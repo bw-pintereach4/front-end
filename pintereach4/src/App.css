@@ -49,20 +49,14 @@ h1 {
 }
 
 /*
-    Header
-*/
-
-.header {
-    padding-top: 20px;
-    margin-bottom: 40px;
-}
-.header h1 {
-    margin-bottom: 0;
-}
-
-/*
     Content
 */
+.dashboard {
+    margin-top: 50px;
+}
+.branding h1 {
+    margin: 0;
+}
 
 .categories {
     padding: 0;

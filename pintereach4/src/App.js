@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Container } from "semantic-ui-react";
 
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Dashboard from "./components/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
     return (
@@ -13,12 +13,18 @@ function App() {
             <div className="App">
                 <Switch>
                     <Route exact path="/" component={Login} />
-                    <Route path="/login" render={() => <Login />} />
-                    <Route path="/signup" render={() => <SignUp />} />
                     <Route
+                        path="/login"
+                        render={(props) => <Login {...props} />}
+                    />
+                    <Route
+                        path="/signup"
+                        render={(props) => <SignUp {...props} />}
+                    />
+                    <PrivateRoute
                         exact
                         path="/dashboard"
-                        render={(props) => <Dashboard {...props} />}
+                        component={Dashboard}
                     />
                 </Switch>
             </div>

@@ -58,8 +58,7 @@ const Login = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        props.checkUser(user.username, user.password);
-        props.history.push("/dashboard");
+        props.checkUser(user.username, user.password, props);
     };
 
     return (
@@ -101,7 +100,7 @@ const Login = (props) => {
                         Login
                     </Button>
                 </Form>
-                <p class="signUp-text">
+                <p className="signUp-text">
                     Not a member? <a href="/signup">Sign up..</a>
                 </p>
             </div>
@@ -111,7 +110,7 @@ const Login = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log(state);
+    //console.log(state);
     return {
         uname: state.usersLogin.username,
         isLoading: state.usersLogin.isLoading,
