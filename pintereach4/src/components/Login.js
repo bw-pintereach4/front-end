@@ -63,16 +63,16 @@ const Login = (props) => {
     };
 
     return (
-        <div className="login">
+        <div className="form-wrapper">
             {props.errors ? props.errors : null}
-            <Icon circular inverted color="teal" name="linkify" />
+            <Icon circular inverted color="red" name="linkify" />
             <h1>Pintereach</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Field>
                     {errors.username ? (
                         <p className="error">{errors.username}</p>
                     ) : null}
-                    <input
+                    <Form.Input
                         type="text"
                         name="username"
                         className="form-control"
@@ -86,7 +86,7 @@ const Login = (props) => {
                     {errors.password ? (
                         <p className="error">{errors.password}</p>
                     ) : null}
-                    <input
+                    <Form.Input
                         type="password"
                         name="password"
                         className="form-control"
@@ -100,9 +100,8 @@ const Login = (props) => {
                     Login
                 </Button>
             </Form>
-            <p>
-                {" "}
-                <a href="#">Sign up here..</a>
+            <p class="signUp-text">
+                Not a member? <a href="/signup">Sign up..</a>
             </p>
         </div>
     );

@@ -1,6 +1,14 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap");
 
+/*
+    colors
+    grain: #D7cec7
+    blackboard: #565656
+    oxblood: #76323F
+    tan: #C09f80
+*/
+
 body {
     background-color: #efefef;
 }
@@ -10,9 +18,9 @@ body {
 }
 
 /*
-    Login
+    Forms
 */
-.login {
+.form-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,20 +28,24 @@ body {
     flex-direction: column;
 }
 
-.login h1 {
+.form-wrapper h1 {
     font-family: "Caveat", cursive;
     margin-top: 5px;
 }
 
-.login form {
-    width: 320px;
+.form-wrapper form {
+    width: 380px;
 }
 
-.login button {
+.form-wrapper button {
     width: 100%;
 }
 
-.login a {
+.form-wrapper a {
     text-align: left;
     margin-top: 10px;
+}
+
+.form-wrapper .signUp-text {
+    margin-top: 20px;
 }
