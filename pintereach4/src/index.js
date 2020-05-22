@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { reducer } from "./reducers";
 
+import "semantic-ui-css/semantic.css";
 import "./index.css";
 
 import App from "./App";

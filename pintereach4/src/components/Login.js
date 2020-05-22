@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 // import { axiosWithAuth } from "../util/axiosWithAuth";
 import { connect } from "react-redux";
 import { checkUser } from "../actions/usersLogin";
+import { Button, Form, Icon } from "semantic-ui-react";
 import * as yup from "yup";
 
 const Login = (props) => {
@@ -9,10 +10,12 @@ const Login = (props) => {
         username: "",
         password: "",
     });
+
     const [errors, setErrors] = useState({
         username: "",
         password: "",
     });
+
     const [buttonState, setButtonState] = useState();
 
     const formSchema = yup.object().shape({
@@ -49,7 +52,6 @@ const Login = (props) => {
 
     useEffect(() => {
         formSchema.isValid(user).then((valid) => {
-            console.log("valid", valid);
             setButtonState(!valid);
         });
     }, [user, formSchema]);
@@ -60,58 +62,55 @@ const Login = (props) => {
         props.history.push("/dashboard");
     };
 
-    console.log(props);
-
     return (
-        <div className="row">
-            <div className="col-md-5">
-                {props.errors ? props.errors : null}
-                <p>Login</p>
-                <form onSubmit={submitHandler}>
-                    <div className="form-group">
-                        {errors.username ? (
-                            <p className="error">{errors.username}</p>
-                        ) : null}
-                        <input
-                            type="text"
-                            name="username"
-                            className="form-control"
-                            placeholder="username"
-                            value={user.username}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        {errors.password ? (
-                            <p className="error">{errors.password}</p>
-                        ) : null}
-                        <input
-                            type="password"
-                            name="password"
-                            className="form-control"
-                            placeholder="password"
-                            value={user.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="btn btn-dark btn-sm"
-                        disabled={buttonState}
-                    >
-                        Logins
-                    </button>
-                </form>
-            </div>
+        <div className="login">
+            {props.errors ? props.errors : null}
+            <Icon circular inverted color="teal" name="linkify" />
+            <h1>Pintereach</h1>
+            <Form onSubmit={submitHandler}>
+                <Form.Field>
+                    {errors.username ? (
+                        <p className="error">{errors.username}</p>
+                    ) : null}
+                    <input
+                        type="text"
+                        name="username"
+                        className="form-control"
+                        placeholder="Username"
+                        value={user.username}
+                        onChange={handleChange}
+                        required
+                    />
+                </Form.Field>
+                <Form.Field>
+                    {errors.password ? (
+                        <p className="error">{errors.password}</p>
+                    ) : null}
+                    <input
+                        type="password"
+                        name="password"
+                        className="form-control"
+                        placeholder="Password"
+                        value={user.password}
+                        onChange={handleChange}
+                        required
+                    />
+                </Form.Field>
+                <Button type="submit" disabled={buttonState}>
+                    Login
+                </Button>
+            </Form>
+            <p>
+                {" "}
+                <a href="#">Sign up here..</a>
+            </p>
         </div>
     );
 };
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    //console.log(state);
+    console.log(state);
     return {
         uname: state.usersLogin.username,
         isLoading: state.usersLogin.isLoading,

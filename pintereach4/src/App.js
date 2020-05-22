@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Container, Header } from "semantic-ui-react";
 
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
@@ -9,7 +9,7 @@ import Dashboard from "./components/Dashboard";
 function App() {
     return (
         <Router>
-            <div className="container">
+            <Container>
                 <div className="App">
                     <Switch>
                         <Route exact path="/" component={Login} />
@@ -21,7 +21,7 @@ function App() {
                         />
                     </Switch>
                 </div>
-            </div>
+            </Container>
         </Router>
     );
 }
