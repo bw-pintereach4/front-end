@@ -10,20 +10,18 @@ import Dashboard from "./components/Dashboard";
 function App() {
     return (
         <Router>
-            <Container>
-                <div className="App">
-                    <Switch>
-                        <Route exact path="/" component={Login} />
-                        <Route path="/login" render={() => <Login />} />
-                        <Route path="/signup" render={() => <SignUp />} />
-                        <Route
-                            exact
-                            path="/dashboard"
-                            render={(props) => <Dashboard {...props} />}
-                        />
-                    </Switch>
-                </div>
-            </Container>
+            <div className="App">
+                <Switch>
+                    <Route exact path="/" component={Login} />
+                    <Route path="/login" render={() => <Login />} />
+                    <Route path="/signup" render={() => <SignUp />} />
+                    <Route
+                        exact
+                        path="/dashboard"
+                        render={(props) => <Dashboard {...props} />}
+                    />
+                </Switch>
+            </div>
         </Router>
     );
 }

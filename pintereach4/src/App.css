@@ -12,14 +12,18 @@
 body {
     background-color: #efefef;
 }
-
 .App {
     font-family: "Montserrat", sans-serif;
+    font-size: 1.1rem;
+}
+h1 {
+    font-family: "Caveat", cursive;
 }
 
 /*
     Forms
 */
+
 .form-wrapper {
     display: flex;
     justify-content: center;
@@ -27,25 +31,45 @@ body {
     height: 80vh;
     flex-direction: column;
 }
-
 .form-wrapper h1 {
-    font-family: "Caveat", cursive;
     margin-top: 5px;
 }
-
 .form-wrapper form {
     width: 380px;
 }
-
 .form-wrapper button {
     width: 100%;
 }
-
 .form-wrapper a {
     text-align: left;
     margin-top: 10px;
 }
-
 .form-wrapper .signUp-text {
     margin-top: 20px;
+}
+
+/*
+    Header
+*/
+
+.header {
+    padding-top: 20px;
+    margin-bottom: 40px;
+}
+.header h1 {
+    margin-bottom: 0;
+}
+
+/*
+    Content
+*/
+
+.categories {
+    padding: 0;
+}
+.categories .item:first-child {
+    margin-bottom: 20px;
+}
+.articles {
+    text-align: center;
 }
