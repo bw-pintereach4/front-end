@@ -21,6 +21,10 @@ function App() {
                         path="/signup"
                         render={(props) => <SignUp {...props} />}
                     />
+                    <Route
+                        path="/logout"
+                        render={(props) => <Login {...props} />}
+                    />
                     <PrivateRoute
                         exact
                         path="/dashboard"
