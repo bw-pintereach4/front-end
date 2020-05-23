@@ -5,7 +5,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Dashboard from "./components/Dashboard";
-import PrivateRoute from "./components/PrivateRoute";
+import AddForm from "./components/AddForm";
+import EditForm from "./components/EditForm";
+// import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
     return (
@@ -25,11 +27,9 @@ function App() {
                         path="/logout"
                         render={(props) => <Login {...props} />}
                     />
-                    <PrivateRoute
-                        exact
-                        path="/dashboard"
-                        component={Dashboard}
-                    />
+                    <Route exact path="/dashboard" component={Dashboard} />
+                    <Route exact path="/add-article" component={AddForm} />
+                    <Route exact path="/edit-article" component={EditForm} />
                 </Switch>
             </div>
         </Router>

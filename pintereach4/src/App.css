@@ -8,7 +8,6 @@
     oxblood: #76323F
     tan: #C09f80
 */
-
 body {
     background-color: #efefef;
 }
@@ -19,11 +18,14 @@ body {
 h1 {
     font-family: "Caveat", cursive;
 }
+pre {
+    margin-top: 20px;
+    margin-left: 10px;
+}
 
 /*
     Forms
 */
-
 .form-wrapper {
     display: flex;
     justify-content: center;
@@ -57,13 +59,22 @@ h1 {
 .branding h1 {
     margin: 0;
 }
-
 .categories {
     padding: 0;
 }
-.categories .item:first-child {
+.categories .item:nth-child(2) {
     margin-bottom: 20px;
 }
-.articles {
-    text-align: center;
+.dashboard .articles-form {
+    flex-direction: column;
+}
+.dashboard .form-heading {
+    margin-top: 20px;
+}
+.App .article {
+    margin-bottom: 15px !important;
+}
+.card-buttons {
+    padding: 5px 10px 10px;
+    text-align: right;
 }

@@ -76,14 +76,19 @@ const SignUp = (props) => {
     return (
         <Container>
             <div className="form-wrapper">
-                {props.errors ? props.errors : null}
+                <p className="notification">
+                    {props.message ? props.message : null}
+                </p>
                 <Icon circular inverted color="red" name="linkify" />
                 <h1>Pintereach</h1>
                 <Form onSubmit={submitHandler}>
+                    {errors.firstname ? (
+                        <p className="error">{errors.firstname}</p>
+                    ) : null}
+                    {errors.lastname ? (
+                        <p className="error">{errors.lastname}</p>
+                    ) : null}
                     <Form.Group widths="equal">
-                        {errors.firstname ? (
-                            <p className="error">{errors.firstname}</p>
-                        ) : null}
                         <Form.Input
                             type="text"
                             name="firstname"
@@ -104,9 +109,9 @@ const SignUp = (props) => {
                         />
                     </Form.Group>
                     <Form.Field>
-                        {/* {errors.password ? (
-                        <p className="error">{errors.password}</p>
-                    ) : null} */}
+                        {errors.email ? (
+                            <p className="error">{errors.email}</p>
+                        ) : null}
                         <Form.Input
                             type="email"
                             name="email"
@@ -118,9 +123,9 @@ const SignUp = (props) => {
                         />
                     </Form.Field>
                     <Form.Field>
-                        {/* {errors.password ? (
-                        <p className="error">{errors.password}</p>
-                    ) : null} */}
+                        {errors.username ? (
+                            <p className="error">{errors.username}</p>
+                        ) : null}
                         <Form.Input
                             type="text"
                             name="username"
