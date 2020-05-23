@@ -1,5 +1,7 @@
-import React from "react";
+import React, {useState}from "react";
 import AddForm from "./AddForm";
+import Header from "./Header";
+
 
 const Dashboard = (props) => {
     const [articles, setArticle] = useState([{
@@ -24,7 +26,11 @@ const Dashboard = (props) => {
     };
 
     return (
-        <AddForm addArticle = {addArticle}/>
+        <div>
+            <Header/>
+            <AddForm addArticle = {addArticle}/>
+        </div>
+        
     );
 };
 
