@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import { axiosWithAuth } from "../util/axiosWithAuth";
-// import { connect } from "react-redux";
-// import { checkUser } from "../actions/usersLogin";
+import { connect } from "react-redux";
+import { registerUser } from "../actions/usersRegister";
 import { Container, Button, Form, Icon } from "semantic-ui-react";
 import * as yup from "yup";
 
@@ -12,7 +11,6 @@ const SignUp = (props) => {
         email: "",
         username: "",
         password: "",
-        confirm_password: "",
     });
 
     const [errors, setErrors] = useState({
@@ -21,7 +19,6 @@ const SignUp = (props) => {
         email: "",
         username: "",
         password: "",
-        confirm_password: "",
     });
 
     const [buttonState, setButtonState] = useState();
@@ -73,6 +70,7 @@ const SignUp = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
         console.log("user", user);
+        props.registerUser(user);
     };
 
     return (
@@ -156,4 +154,14 @@ const SignUp = (props) => {
     );
 };
 
-export default SignUp;
+// hook up the connect to our store
+const mapStateToProps = (state) => {
+    console.log("state", state);
+    return {
+        isLoading: state.usersRegister.isLoading,
+        isLoaded: state.usersRegister.isLoaded,
+        message: state.usersRegister.message,
+    };
+};
+
+export default connect(mapStateToProps, { registerUser })(SignUp);

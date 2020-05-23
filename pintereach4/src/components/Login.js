@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { axiosWithAuth } from "../util/axiosWithAuth";
 import { connect } from "react-redux";
 import { checkUser } from "../actions/usersLogin";
 import { Container, Button, Form, Icon } from "semantic-ui-react";
@@ -110,7 +109,7 @@ const Login = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    //console.log(state);
+    console.log("state", state);
     return {
         uname: state.usersLogin.username,
         isLoading: state.usersLogin.isLoading,

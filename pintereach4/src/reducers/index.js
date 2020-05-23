@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
-import { usersLogin } from "./usersLogin";
+import { usersLogin } from "./usersLogin.js";
+import { usersRegister } from "./usersRegister.js";
 
-export const reducer = combineReducers({ usersLogin });
+export const reducer = combineReducers({ usersLogin, usersRegister });
