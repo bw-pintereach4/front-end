@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-// import { axiosWithAuth } from "../util/axiosWithAuth";
 import { connect } from "react-redux";
 import { checkUser } from "../actions/usersLogin";
-import { Button, Form, Icon } from "semantic-ui-react";
+import { Container, Button, Form, Icon } from "semantic-ui-react";
 import * as yup from "yup";
 
 const Login = (props) => {
@@ -58,59 +57,59 @@ const Login = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        props.checkUser(user.username, user.password);
-        props.history.push("/dashboard");
+        props.checkUser(user.username, user.password, props);
     };
 
     return (
-        <div className="login">
-            {props.errors ? props.errors : null}
-            <Icon circular inverted color="teal" name="linkify" />
-            <h1>Pintereach</h1>
-            <Form onSubmit={submitHandler}>
-                <Form.Field>
-                    {errors.username ? (
-                        <p className="error">{errors.username}</p>
-                    ) : null}
-                    <input
-                        type="text"
-                        name="username"
-                        className="form-control"
-                        placeholder="Username"
-                        value={user.username}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Field>
-                <Form.Field>
-                    {errors.password ? (
-                        <p className="error">{errors.password}</p>
-                    ) : null}
-                    <input
-                        type="password"
-                        name="password"
-                        className="form-control"
-                        placeholder="Password"
-                        value={user.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Field>
-                <Button type="submit" disabled={buttonState}>
-                    Login
-                </Button>
-            </Form>
-            <p>
-                {" "}
-                <a href="#">Sign up here..</a>
-            </p>
-        </div>
+        <Container>
+            <div className="form-wrapper">
+                {props.errors ? props.errors : null}
+                <Icon circular inverted color="red" name="linkify" />
+                <h1>Pintereach</h1>
+                <Form onSubmit={submitHandler}>
+                    <Form.Field>
+                        {errors.username ? (
+                            <p className="error">{errors.username}</p>
+                        ) : null}
+                        <Form.Input
+                            type="text"
+                            name="username"
+                            className="form-control"
+                            placeholder="Username"
+                            value={user.username}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        {errors.password ? (
+                            <p className="error">{errors.password}</p>
+                        ) : null}
+                        <Form.Input
+                            type="password"
+                            name="password"
+                            className="form-control"
+                            placeholder="Password"
+                            value={user.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Field>
+                    <Button type="submit" disabled={buttonState}>
+                        Login
+                    </Button>
+                </Form>
+                <p className="signUp-text">
+                    Not a member? <a href="/signup">Sign up..</a>
+                </p>
+            </div>
+        </Container>
     );
 };
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log(state);
+    console.log("state", state);
     return {
         uname: state.usersLogin.username,
         isLoading: state.usersLogin.isLoading,

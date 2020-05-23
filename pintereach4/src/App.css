@@ -1,39 +1,80 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap");
 
+/*
+    colors
+    grain: #D7cec7
+    blackboard: #565656
+    oxblood: #76323F
+    tan: #C09f80
+*/
 body {
     background-color: #efefef;
 }
-
 .App {
     font-family: "Montserrat", sans-serif;
+    font-size: 1.1rem;
+}
+h1 {
+    font-family: "Caveat", cursive;
+}
+pre {
+    margin-top: 20px;
+    margin-left: 10px;
 }
 
 /*
-    Login
+    Forms
 */
-.login {
+.form-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 80vh;
     flex-direction: column;
 }
-
-.login h1 {
-    font-family: "Caveat", cursive;
+.form-wrapper h1 {
     margin-top: 5px;
 }
-
-.login form {
-    width: 320px;
+.form-wrapper form {
+    width: 380px;
 }
-
-.login button {
+.form-wrapper button {
     width: 100%;
 }
-
-.login a {
+.form-wrapper a {
     text-align: left;
     margin-top: 10px;
+}
+.form-wrapper .signUp-text {
+    margin-top: 20px;
+}
+
+/*
+    Content
+*/
+.dashboard {
+    margin-top: 50px;
+}
+.branding h1 {
+    margin: 0;
+}
+.categories {
+    padding: 0;
+}
+.categories .item:nth-child(2) {
+    margin-bottom: 20px;
+}
+.dashboard .articles-form {
+    flex-direction: column;
+}
+.dashboard .form-heading {
+    margin-top: 20px;
+}
+.App .article {
+    margin-bottom: 15px !important;
+}
+.card-buttons {
+    padding: 5px 10px 10px;
+    text-align: right;
 }
