@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { checkUser } from "../actions/usersLogin";
-import { Container, Button, Form, Icon } from "semantic-ui-react";
+import { Container, Button, Form, Message } from "semantic-ui-react";
 import * as yup from "yup";
 
 const Login = (props) => {
@@ -19,10 +19,7 @@ const Login = (props) => {
 
     const formSchema = yup.object().shape({
         username: yup.string().required("Name is a required field"),
-        password: yup
-            .string()
-            .required("Password is a required field")
-            .min(5, "Passwords must be at least 6 characters long."),
+        password: yup.string().required("Password is a required field"),
     });
 
     const handleChange = (e) => {
@@ -57,16 +54,27 @@ const Login = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        props.checkUser(user.username, user.password, props);
+        props.checkUser(user, props);
+        setUser({
+            username: "",
+            password: "",
+        });
     };
 
     return (
         <Container>
             <div className="form-wrapper">
-                {props.errors ? props.errors : null}
-                <Icon circular inverted color="red" name="linkify" />
+                <i
+                    aria-hidden="true"
+                    className="brown linkify circular inverted icon"
+                ></i>
                 <h1>Pintereach</h1>
                 <Form onSubmit={submitHandler}>
+                    {props.message ? (
+                        <Message size="tiny" color="red" compact>
+                            {props.message}
+                        </Message>
+                    ) : null}
                     <Form.Field>
                         {errors.username ? (
                             <p className="error">{errors.username}</p>
@@ -111,10 +119,9 @@ const Login = (props) => {
 const mapStateToProps = (state) => {
     console.log("state", state);
     return {
-        uname: state.usersLogin.username,
         isLoading: state.usersLogin.isLoading,
         isLoaded: state.usersLogin.isLoaded,
-        error: state.usersLogin.error,
+        message: state.usersLogin.message,
     };
 };
 

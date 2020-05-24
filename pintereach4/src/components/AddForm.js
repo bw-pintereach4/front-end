@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { postArticle } from "../actions/articles";
 import {
     Container,
     Grid,
-    Divider,
-    List,
     Form,
     Button,
     Dropdown,
+    Message,
 } from "semantic-ui-react";
 import * as yup from "yup";
 import Sidebar from "./Sidebar";
@@ -21,37 +22,37 @@ const categories = [
     { key: "favorites", text: "Favorites", value: "favorites" },
 ];
 
-export default function AddForm(props) {
-    const user = localStorage.getItem("user");
+const AddForm = (props) => {
+    //const user = localStorage.getItem("user");
     const [buttonState, setButtonState] = useState();
     const [formState, setFormState] = useState({
         url: "",
         title: "",
-        author: "",
+        publisher: "",
         description: "",
-        categories: ["uncategorized"],
+        //categories: ["uncategorized"],
     });
 
     const [errors, setErrors] = useState({
         url: "",
         title: "",
-        author: "",
+        publisher: "",
         description: "",
-        categories: "",
+        //categories: "",
     });
 
     const formSchema = yup.object().shape({
         url: yup.string().required("URL is a required field"),
         title: yup.string().required("Title is a required field"),
-        author: yup.string().required("Author is a required field"),
+        publisher: yup.string().required("Author is a required field"),
         description: yup.string(),
-        categories: yup.array().required("Categories is a required field"),
+        //categories: yup.array().required("Categories is a required field"),
     });
 
     const [errorState, setErrorState] = useState({
         url: "",
         title: "",
-        author: "",
+        publisher: "",
         description: "",
         categories: "",
     });
@@ -88,19 +89,15 @@ export default function AddForm(props) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        console.log(formState);
-        //props.addArticle(formState);
-        // setFormState({
-        //     url: "",
-        //     title: "",
-        //     author: "",
-        //     categories: [],
-        //     description: "",
-        // });
-
-        // Axios.post("https://reqres.in/api/users", formState) //change to real url later
-        //     .then((response) => console.log(response))
-        //     .catch((err) => console.log(err));
+        //console.log(formState);
+        props.postArticle(formState);
+        setFormState({
+            url: "",
+            title: "",
+            publisher: "",
+            //categories: [],
+            description: "",
+        });
     };
 
     return (
@@ -112,6 +109,11 @@ export default function AddForm(props) {
                         <Grid columns={4} className="articles-form">
                             <p className="form-heading">Add Article</p>
                             <Form onSubmit={submitForm}>
+                                {props.message ? (
+                                    <Message size="tiny" color="red" compact>
+                                        {props.message}
+                                    </Message>
+                                ) : null}
                                 <Form.Field>
                                     {errorState.url ? (
                                         <p className="error">
@@ -145,22 +147,22 @@ export default function AddForm(props) {
                                     />
                                 </Form.Field>
                                 <Form.Field>
-                                    {errorState.author ? (
+                                    {errorState.publisher ? (
                                         <p className="error">
-                                            {errorState.author}
+                                            {errorState.publisher}
                                         </p>
                                     ) : null}
                                     <Form.Input
-                                        label="Author"
+                                        label="Publisher"
                                         type="text"
-                                        id="author"
-                                        name="author"
-                                        placeholder="Author"
+                                        id="publisher"
+                                        name="publisher"
+                                        placeholder="Publisher"
                                         onChange={inputChange}
-                                        value={formState.author}
+                                        value={formState.publisher}
                                     />
                                 </Form.Field>
-                                <Form.Field>
+                                {/* <Form.Field>
                                     {errorState.categories ? (
                                         <p className="error">
                                             {errorState.categories}
@@ -183,7 +185,7 @@ export default function AddForm(props) {
                                         value={formState.categories}
                                         options={categories}
                                     />
-                                </Form.Field>
+                                </Form.Field> */}
                                 <Form.Field>
                                     {errorState.description ? (
                                         <p className="error">
@@ -210,4 +212,16 @@ export default function AddForm(props) {
             </Grid>
         </Container>
     );
-}
+};
+
+// hook up the connect to our store
+const mapStateToProps = (state) => {
+    console.log("article state", state);
+    return {
+        isLoading: state.articles.isLoading,
+        isLoaded: state.articles.isLoaded,
+        message: state.articles.message,
+    };
+};
+
+export default connect(mapStateToProps, { postArticle })(AddForm);

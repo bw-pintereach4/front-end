@@ -4,7 +4,7 @@ const initialState = {
     username: "",
     isLoading: false,
     isLoaded: false,
-    error: null,
+    message: null,
 };
 
 export function usersLogin(state = initialState, action) {
@@ -20,7 +20,7 @@ export function usersLogin(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 isLoaded: false,
-                error: action.payload,
+                message: action.payload,
             };
         default:
             return state;

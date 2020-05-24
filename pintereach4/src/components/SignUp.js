@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { registerUser } from "../actions/usersRegister";
-import { Container, Button, Form, Icon } from "semantic-ui-react";
+import { Container, Button, Form, Message } from "semantic-ui-react";
 import * as yup from "yup";
 
 const SignUp = (props) => {
     const [user, setUser] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
+        // firstname: "",
+        // lastname: "",
+        // email: "",
         username: "",
         password: "",
     });
 
     const [errors, setErrors] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
+        // firstname: "",
+        // lastname: "",
+        // email: "",
         username: "",
         password: "",
     });
@@ -24,17 +24,17 @@ const SignUp = (props) => {
     const [buttonState, setButtonState] = useState();
 
     const formSchema = yup.object().shape({
-        firstname: yup.string().required("First Name is a required field"),
-        lastname: yup.string().required("Last Name is a required field"),
-        email: yup
-            .string()
-            .email("Needs email format")
-            .required("Email is a required field"),
+        // firstname: yup.string().required("First Name is a required field"),
+        // lastname: yup.string().required("Last Name is a required field"),
+        // email: yup
+        //     .string()
+        //     .email("Needs email format")
+        //     .required("Email is a required field"),
         username: yup.string().required("Username is a required field"),
         password: yup
             .string()
             .required("Password is a required field")
-            .min(5, "Passwords must be at least 6 characters long."),
+            .min(6, "Passwords must be at least 6 characters long."),
     });
 
     const handleChange = (e) => {
@@ -69,20 +69,28 @@ const SignUp = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log("user", user);
         props.registerUser(user);
+        setUser({
+            username: "",
+            password: "",
+        });
     };
 
     return (
         <Container>
             <div className="form-wrapper">
-                <p className="notification">
-                    {props.message ? props.message : null}
-                </p>
-                <Icon circular inverted color="red" name="linkify" />
+                <i
+                    aria-hidden="true"
+                    className="brown linkify circular inverted icon"
+                ></i>
                 <h1>Pintereach</h1>
                 <Form onSubmit={submitHandler}>
-                    {errors.firstname ? (
+                    {props.message ? (
+                        <Message size="tiny" color="red" compact>
+                            {props.message}
+                        </Message>
+                    ) : null}
+                    {/* {errors.firstname ? (
                         <p className="error">{errors.firstname}</p>
                     ) : null}
                     {errors.lastname ? (
@@ -121,7 +129,7 @@ const SignUp = (props) => {
                             onChange={handleChange}
                             required
                         />
-                    </Form.Field>
+                    </Form.Field> */}
                     <Form.Field>
                         {errors.username ? (
                             <p className="error">{errors.username}</p>
@@ -154,6 +162,9 @@ const SignUp = (props) => {
                         Signup
                     </Button>
                 </Form>
+                <p className="signUp-text">
+                    Already a member? <a href="/login">Login..</a>
+                </p>
             </div>
         </Container>
     );

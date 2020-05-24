@@ -19,27 +19,37 @@ const Sidebar = (props) => {
                     href="/"
                     onClick={() => {
                         localStorage.removeItem("token");
+                        localStorage.removeItem("user");
                     }}
                 >
                     Logout
                 </a>
             </p>
             <Divider hidden />
-            <a className="ui negative button" href="/add-article">
+            <a className="ui brown button" href="/add-article">
                 Add New Article
             </a>
             <Divider hidden />
             <List className="categories">
                 <List.Item
                     icon="tag"
-                    content={<a href="/dashboard">All Articles</a>}
+                    content={<a href="/articles">All Articles</a>}
                 />
-                <List.Item icon="star" content={<a href="#">Favorites</a>} />
-                <List.Item icon="heartbeat" content={<a href="#">Health</a>} />
-                <List.Item icon="write" content={<a href="#">Educational</a>} />
-                <List.Item icon="futbol" content={<a href="#">Sports</a>} />
-                <List.Item icon="fork" content={<a href="#">Technology</a>} />
-                <List.Item icon="find" content={<a href="#">History</a>} />
+                <List.Item icon="star" content={<a href="#git">Favorites</a>} />
+                <List.Item
+                    icon="heartbeat"
+                    content={<a href="#git">Health</a>}
+                />
+                <List.Item
+                    icon="write"
+                    content={<a href="#git">Educational</a>}
+                />
+                <List.Item icon="futbol" content={<a href="#git">Sports</a>} />
+                <List.Item
+                    icon="fork"
+                    content={<a href="#git">Technology</a>}
+                />
+                <List.Item icon="find" content={<a href="#git">History</a>} />
             </List>
             <Divider hidden />
             <p>&copy; All rights reserved.</p>

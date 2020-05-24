@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-    Container,
-    Grid,
-    Divider,
-    List,
-    Form,
-    Button,
-    Dropdown,
-} from "semantic-ui-react";
+import { Container, Grid, Form, Button, Dropdown } from "semantic-ui-react";
 import * as yup from "yup";
 import Sidebar from "./Sidebar";
 
