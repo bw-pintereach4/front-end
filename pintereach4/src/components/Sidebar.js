@@ -6,11 +6,12 @@ import { getCategories } from "../actions/articles";
 
 const Sidebar = (props) => {
     const user = localStorage.getItem("user");
-    const [categories, setCategories] = useState();
 
     useEffect(() => {
         props.getCategories();
     }, []);
+
+    //console.log(props.categories);
 
     return (
         <Grid.Column width={3}>
@@ -38,33 +39,20 @@ const Sidebar = (props) => {
                 Add New Article
             </a>
             <Divider hidden />
-            <List className="categories">
-                <List.Item
-                    icon="tag"
-                    content={<a href="/articles">All Articles</a>}
-                />
-                {/* <List.Item icon="star" content={<a href="#git">Favorites</a>} /> */}
-                <List.Item
-                    icon="heartbeat"
-                    content={<a href="/articles/category/1">Health</a>}
-                />
-                <List.Item
-                    icon="write"
-                    content={<a href="/articles/category/2">Educational</a>}
-                />
-                <List.Item
-                    icon="futbol"
-                    content={<a href="/articles/category/3">Sports</a>}
-                />
-                <List.Item
-                    icon="fork"
-                    content={<a href="/articles/category/4">Technology</a>}
-                />
-                <List.Item
-                    icon="find"
-                    content={<a href="/articles/category/5">History</a>}
-                />
-            </List>
+            <ul className="categories">
+                <li>
+                    <a href="/articles/">All Articles</a>
+                </li>
+                {props.categories.map((category) => {
+                    return (
+                        <li key={category.id}>
+                            <a href={`/articles/category/${category.id}`}>
+                                {category.category_name}
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
             <Divider hidden />
             <p>&copy; All rights reserved.</p>
         </Grid.Column>
@@ -78,7 +66,6 @@ const mapStateToProps = (state) => {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,
         categories: state.articles.categories,
-        message: state.articles.message,
     };
 };
 

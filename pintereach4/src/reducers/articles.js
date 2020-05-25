@@ -51,10 +51,7 @@ export function articles(state = initialState, action) {
         case GET_CATEGORIES:
             return {
                 ...state,
-                isLoading: false,
-                isLoaded: true,
                 categories: action.payload,
-                message: action.payload,
             };
         default:
             return state;

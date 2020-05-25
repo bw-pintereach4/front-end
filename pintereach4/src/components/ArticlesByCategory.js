@@ -11,8 +11,6 @@ const ArticlesByCategory = (props) => {
         props.getArticlesById(props.match.params.id);
     }, [props.match.params.id]);
 
-    //console.log("..", props.articles);
-
     return (
         <Container className="dashboard">
             <Grid columns={2} divided>
@@ -92,6 +90,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { getArticlesById, deleteArticle })(
-    ArticlesByCategory
-);
+export default connect(mapStateToProps, {
+    getArticlesById,
+    deleteArticle,
+})(ArticlesByCategory);

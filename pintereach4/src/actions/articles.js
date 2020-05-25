@@ -32,9 +32,9 @@ export const getArticlesById = (id) => (dispatch) => {
     axiosWithAuth()
         .get(`/articles/categories/${id}`)
         .then((res) => {
-            console.log("axios result by id", res);
+            //console.log("axios result by id", res);
             //console.log(res);
-            //dispatch({ type: GET_ARTICLE_BY_ID, payload: res.data });
+            dispatch({ type: GET_ARTICLE_BY_ID, payload: res.data });
         })
         .catch((err) => {
             console.log("Err is: ", err);
@@ -51,7 +51,7 @@ export const getCategories = () => (dispatch) => {
     axiosWithAuth()
         .get(`/categories`)
         .then((res) => {
-            //console.log(res);
+            //console.log("get categories", res);
             dispatch({ type: GET_CATEGORIES, payload: res.data });
         })
         .catch((err) => {

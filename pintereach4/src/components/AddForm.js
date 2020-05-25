@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { postArticle } from "../actions/articles";
+import { getCategories } from "../actions/articles";
 import {
     Container,
     Grid,
@@ -12,17 +13,6 @@ import {
 import * as yup from "yup";
 import Sidebar from "./Sidebar";
 
-const categories = [
-    // axios get key will be the category id
-    { key: "uncategorized", text: "Uncategorized", value: 0 },
-    { key: "health", text: "Health", value: 1 },
-    { key: "educational", text: "Educational", value: 2 },
-    { key: "sports", text: "Sports", value: 3 },
-    { key: "technology", text: "Technology", value: 4 },
-    { key: "history", text: "History", value: 5 },
-    // { key: "favorites", text: "Favorites", value: "favorites" },
-];
-
 const AddForm = (props) => {
     //const user = localStorage.getItem("user");
     const [buttonState, setButtonState] = useState();
@@ -31,7 +21,7 @@ const AddForm = (props) => {
         title: "",
         publisher: "",
         description: "",
-        categories: [0],
+        categories: [],
     });
 
     const formSchema = yup.object().shape({
@@ -49,6 +39,10 @@ const AddForm = (props) => {
         description: "",
         categories: "",
     });
+
+    useEffect(() => {
+        props.getCategories();
+    }, []);
 
     useEffect(() => {
         formSchema.isValid(formState).then((valid) => {
@@ -194,7 +188,16 @@ const AddForm = (props) => {
                                             });
                                         }}
                                         value={formState.categories}
-                                        options={categories}
+                                        options={props.categories.map(
+                                            (category) => {
+                                                return {
+                                                    key: category.id,
+                                                    text:
+                                                        category.category_name,
+                                                    value: category.id,
+                                                };
+                                            }
+                                        )}
                                     />
                                 </Form.Field>
                                 <Form.Field>
@@ -227,7 +230,10 @@ const mapStateToProps = (state) => {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,
         message: state.articles.message,
+        categories: state.articles.categories,
     };
 };
 
-export default connect(mapStateToProps, { postArticle })(AddForm);
+export default connect(mapStateToProps, { postArticle, getCategories })(
+    AddForm
+);

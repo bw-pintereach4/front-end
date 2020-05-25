@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Container, Grid, Form, Button, Dropdown } from "semantic-ui-react";
 import * as yup from "yup";
-import { getArticles } from "../actions/articles";
+import { getCategories } from "../actions/articles";
 import Sidebar from "./Sidebar";
 
-const categories = [
-    { key: "uncategorized", text: "Uncategorized", value: 0 },
-    { key: "health", text: "Health", value: 1 },
-    { key: "educational", text: "Educational", value: 2 },
-    { key: "sports", text: "Sports", value: 3 },
-    { key: "technology", text: "Technology", value: 4 },
-    { key: "history", text: "History", value: 5 },
-];
+// const categories = [
+//     { key: "uncategorized", text: "Uncategorized", value: 0 },
+//     { key: "health", text: "Health", value: 1 },
+//     { key: "educational", text: "Educational", value: 2 },
+//     { key: "sports", text: "Sports", value: 3 },
+//     { key: "technology", text: "Technology", value: 4 },
+//     { key: "history", text: "History", value: 5 },
+// ];
 
 const EditForm = (props) => {
     const [buttonState, setButtonState] = useState();
@@ -21,7 +21,7 @@ const EditForm = (props) => {
         title: "",
         author: "",
         description: "",
-        categories: [0],
+        categories: [],
     });
 
     const formSchema = yup.object().shape({
@@ -39,6 +39,10 @@ const EditForm = (props) => {
         description: "",
         categories: [],
     });
+
+    useEffect(() => {
+        props.getCategories();
+    }, []);
 
     useEffect(() => {
         formSchema.isValid(formState).then((valid) => {
@@ -150,7 +154,7 @@ const EditForm = (props) => {
                                         Categories
                                     </label>
                                     <Dropdown
-                                        placeholder="Skills"
+                                        placeholder="Categories"
                                         fluid
                                         multiple
                                         selection
@@ -161,7 +165,16 @@ const EditForm = (props) => {
                                             });
                                         }}
                                         value={formState.categories}
-                                        options={categories}
+                                        options={props.categories.map(
+                                            (category) => {
+                                                return {
+                                                    key: category.id,
+                                                    text:
+                                                        category.category_name,
+                                                    value: category.id,
+                                                };
+                                            }
+                                        )}
                                     />
                                 </Form.Field>
                                 <Form.Field>
@@ -200,7 +213,8 @@ const mapStateToProps = (state) => {
         isLoaded: state.articles.isLoaded,
         articles: state.articles.articles,
         message: state.articles.message,
+        categories: state.articles.categories,
     };
 };
 
-export default connect(mapStateToProps, { getArticles })(EditForm);
+export default connect(mapStateToProps, { getCategories })(EditForm);
