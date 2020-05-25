@@ -3,34 +3,30 @@ import { connect } from "react-redux";
 import { Container, Grid, Card, Message } from "semantic-ui-react";
 import Sidebar from "./Sidebar";
 
-import { getArticles } from "../actions/articles";
+import { getArticlesById } from "../actions/articles";
 import { deleteArticle } from "../actions/articles";
 
-const Articles = (props) => {
+const ArticlesByCategory = (props) => {
     useEffect(() => {
-        props.getArticles();
-    }, []);
+        props.getArticlesById(props.match.params.id);
+    }, [props.match.params.id]);
 
     //console.log("..", props.articles);
+
     return (
         <Container className="dashboard">
             <Grid columns={2} divided>
                 <Grid.Row>
                     <Sidebar />
                     <Grid.Column width={13}>
-                        {props.message ? (
-                            <Message size="tiny" color="red">
-                                {props.message}
-                            </Message>
-                        ) : null}
                         <Grid columns={4} className="articles">
                             <Grid.Row>
                                 {props.isLoaded ? (
-                                    props.articles.map((article) => {
+                                    props.articles.map((article, index) => {
                                         return (
                                             <Grid.Column
                                                 className="article"
-                                                key={article.id}
+                                                key={index}
                                             >
                                                 <Card>
                                                     <Card.Content
@@ -72,7 +68,9 @@ const Articles = (props) => {
                                         );
                                     })
                                 ) : (
-                                    <p>Loading articles..</p>
+                                    <Message size="tiny" color="red">
+                                        No articles related to this category..
+                                    </Message>
                                 )}
                             </Grid.Row>
                         </Grid>
@@ -94,6 +92,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { getArticles, deleteArticle })(
-    Articles
+export default connect(mapStateToProps, { getArticlesById, deleteArticle })(
+    ArticlesByCategory
 );

@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap");
 
-@grain: #D7cec7;
+/* @grain: #D7cec7;
 @blackboard: #565656;
 @oxblood: #76323F;
-@tan: #C09f80;
+@tan: #C09f80; */
 
 body {
     background-color: #efefef;
@@ -71,7 +71,7 @@ a {
 .categories {
     padding: 0;
 }
-.categories .item:nth-child(2) {
+.categories .item:nth-child(1) {
     margin-bottom: 20px;
 }
 .categories .item i {
@@ -82,6 +82,9 @@ a {
 }
 .dashboard .form-heading {
     margin-top: 20px;
+}
+.dashboard .message {
+    margin-left: 1rem;
 }
 .App .article {
     margin-bottom: 15px !important;

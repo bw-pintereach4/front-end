@@ -34,14 +34,6 @@ const AddForm = (props) => {
         categories: [0],
     });
 
-    const [errors, setErrors] = useState({
-        url: "",
-        title: "",
-        publisher: "",
-        description: "",
-        categories: "",
-    });
-
     const formSchema = yup.object().shape({
         url: yup.string().required("URL is a required field"),
         title: yup.string().required("Title is a required field"),
@@ -65,7 +57,6 @@ const AddForm = (props) => {
     }, [formState, formSchema]);
 
     const inputChange = (e) => {
-        console.log("change");
         e.persist();
 
         yup.reach(formSchema, e.target.name)
@@ -110,7 +101,7 @@ const AddForm = (props) => {
                     <Grid.Column width={10}>
                         <Grid columns={4} className="articles-form">
                             {props.message ? (
-                                <Message size="tiny" color="red" compact>
+                                <Message size="tiny" color="green">
                                     {props.message}
                                 </Message>
                             ) : null}

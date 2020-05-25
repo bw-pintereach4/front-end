@@ -1,34 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Container, Grid, Form, Button, Dropdown } from "semantic-ui-react";
 import * as yup from "yup";
+import { getArticles } from "../actions/articles";
 import Sidebar from "./Sidebar";
 
 const categories = [
-    { key: "uncategorized", text: "Uncategorized", value: "uncategorized" },
-    { key: "health", text: "Health", value: "health" },
-    { key: "educational", text: "Educational", value: "educational" },
-    { key: "sports", text: "Sports", value: "sports" },
-    { key: "technology", text: "Technology", value: "technology" },
-    { key: "history", text: "History", value: "history" },
-    { key: "favorites", text: "Favorites", value: "favorites" },
+    { key: "uncategorized", text: "Uncategorized", value: 0 },
+    { key: "health", text: "Health", value: 1 },
+    { key: "educational", text: "Educational", value: 2 },
+    { key: "sports", text: "Sports", value: 3 },
+    { key: "technology", text: "Technology", value: 4 },
+    { key: "history", text: "History", value: 5 },
 ];
 
-export default function EditForm(props) {
+const EditForm = (props) => {
     const [buttonState, setButtonState] = useState();
     const [formState, setFormState] = useState({
         url: "",
         title: "",
         author: "",
         description: "",
-        categories: ["uncategorized"],
-    });
-
-    const [errors, setErrors] = useState({
-        url: "",
-        title: "",
-        author: "",
-        description: "",
-        categories: "",
+        categories: [0],
     });
 
     const formSchema = yup.object().shape({
@@ -44,7 +37,7 @@ export default function EditForm(props) {
         title: "",
         author: "",
         description: "",
-        categories: "",
+        categories: [],
     });
 
     useEffect(() => {
@@ -88,10 +81,6 @@ export default function EditForm(props) {
         //     categories: [],
         //     description: "",
         // });
-
-        // Axios.post("https://reqres.in/api/users", formState) //change to real url later
-        //     .then((response) => console.log(response))
-        //     .catch((err) => console.log(err));
     };
 
     return (
@@ -201,4 +190,17 @@ export default function EditForm(props) {
             </Grid>
         </Container>
     );
-}
+};
+
+// hook up the connect to our store
+const mapStateToProps = (state) => {
+    //console.log("article state", state);
+    return {
+        isLoading: state.articles.isLoading,
+        isLoaded: state.articles.isLoaded,
+        articles: state.articles.articles,
+        message: state.articles.message,
+    };
+};
+
+export default connect(mapStateToProps, { getArticles })(EditForm);
