@@ -23,6 +23,9 @@ pre {
 a {
     color: #76323f;
 }
+.error {
+    color: #76323f;
+}
 
 /*
     Forms
@@ -87,11 +90,11 @@ a {
     background: #c09f80;
 }
 .article .card .content .header {
-    color: #76323f;
+    color: white;
 }
 .article .card .meta,
 .article .card .content .description {
-    color: white;
+    color: #76323f;
 }
 .card-buttons {
     padding: 5px 10px 10px;

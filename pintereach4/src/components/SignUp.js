@@ -6,17 +6,17 @@ import * as yup from "yup";
 
 const SignUp = (props) => {
     const [user, setUser] = useState({
-        // firstname: "",
-        // lastname: "",
-        // email: "",
+        first_name: "",
+        last_name: "",
+        email: "",
         username: "",
         password: "",
     });
 
     const [errors, setErrors] = useState({
-        // firstname: "",
-        // lastname: "",
-        // email: "",
+        first_name: "",
+        last_name: "",
+        email: "",
         username: "",
         password: "",
     });
@@ -24,12 +24,12 @@ const SignUp = (props) => {
     const [buttonState, setButtonState] = useState();
 
     const formSchema = yup.object().shape({
-        // firstname: yup.string().required("First Name is a required field"),
-        // lastname: yup.string().required("Last Name is a required field"),
-        // email: yup
-        //     .string()
-        //     .email("Needs email format")
-        //     .required("Email is a required field"),
+        first_name: yup.string().required("First Name is a required field"),
+        last_name: yup.string().required("Last Name is a required field"),
+        email: yup
+            .string()
+            .email("Needs email format")
+            .required("Email is a required field"),
         username: yup.string().required("Username is a required field"),
         password: yup
             .string()
@@ -71,6 +71,9 @@ const SignUp = (props) => {
         e.preventDefault();
         props.registerUser(user);
         setUser({
+            first_name: "",
+            last_name: "",
+            email: "",
             username: "",
             password: "",
         });
@@ -86,39 +89,57 @@ const SignUp = (props) => {
                 <h1>Pintereach</h1>
                 <Form onSubmit={submitHandler}>
                     {props.message ? (
-                        <Message size="tiny" color="red" compact>
+                        <Message size="tiny" color="green" compact>
                             {props.message}
                         </Message>
                     ) : null}
-                    {/* {errors.firstname ? (
-                        <p className="error">{errors.firstname}</p>
+                    {errors.first_name ? (
+                        <p className="error">
+                            <i
+                                aria-hidden="true"
+                                className="small red cancel icon"
+                            ></i>
+                            {errors.first_name}
+                        </p>
                     ) : null}
-                    {errors.lastname ? (
-                        <p className="error">{errors.lastname}</p>
+                    {errors.last_name ? (
+                        <p className="error">
+                            <i
+                                aria-hidden="true"
+                                className="small red cancel icon"
+                            ></i>
+                            {errors.last_name}
+                        </p>
                     ) : null}
                     <Form.Group widths="equal">
                         <Form.Input
                             type="text"
-                            name="firstname"
+                            name="first_name"
                             className="form-control"
                             placeholder="First Name"
-                            value={user.firstname}
+                            value={user.first_name}
                             onChange={handleChange}
                             required
                         />
                         <Form.Input
                             type="text"
-                            name="lastname"
+                            name="last_name"
                             className="form-control"
                             placeholder="Last Name"
-                            value={user.lastname}
+                            value={user.last_name}
                             onChange={handleChange}
                             required
                         />
                     </Form.Group>
                     <Form.Field>
                         {errors.email ? (
-                            <p className="error">{errors.email}</p>
+                            <p className="error">
+                                <i
+                                    aria-hidden="true"
+                                    className="small red cancel icon"
+                                ></i>
+                                {errors.email}
+                            </p>
                         ) : null}
                         <Form.Input
                             type="email"
@@ -129,10 +150,16 @@ const SignUp = (props) => {
                             onChange={handleChange}
                             required
                         />
-                    </Form.Field> */}
+                    </Form.Field>
                     <Form.Field>
                         {errors.username ? (
-                            <p className="error">{errors.username}</p>
+                            <p className="error">
+                                <i
+                                    aria-hidden="true"
+                                    className="small red cancel icon"
+                                ></i>
+                                {errors.username}
+                            </p>
                         ) : null}
                         <Form.Input
                             type="text"
@@ -146,7 +173,13 @@ const SignUp = (props) => {
                     </Form.Field>
                     <Form.Field>
                         {errors.password ? (
-                            <p className="error">{errors.password}</p>
+                            <p className="error">
+                                <i
+                                    aria-hidden="true"
+                                    className="small red cancel icon"
+                                ></i>
+                                {errors.password}
+                            </p>
                         ) : null}
                         <Form.Input
                             type="password"

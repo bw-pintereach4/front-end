@@ -20,7 +20,7 @@ const Articles = (props) => {
                 <Grid.Row>
                     <Sidebar />
                     <Grid.Column width={13}>
-                        {props.isLoaded ? <h1>Loaded</h1> : <h1>Loading</h1>}
+                        {/* {props.isLoaded ? <h1>Loaded</h1> : <h1>Loading</h1>} */}
                         <Grid columns={4} className="articles">
                             <Grid.Row>
                                 <Grid.Column className="article">

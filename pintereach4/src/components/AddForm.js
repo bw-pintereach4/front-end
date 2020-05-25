@@ -13,13 +13,14 @@ import * as yup from "yup";
 import Sidebar from "./Sidebar";
 
 const categories = [
-    { key: "uncategorized", text: "Uncategorized", value: "uncategorized" },
-    { key: "health", text: "Health", value: "health" },
-    { key: "educational", text: "Educational", value: "educational" },
-    { key: "sports", text: "Sports", value: "sports" },
-    { key: "technology", text: "Technology", value: "technology" },
-    { key: "history", text: "History", value: "history" },
-    { key: "favorites", text: "Favorites", value: "favorites" },
+    // axios get key will be the category id
+    { key: "uncategorized", text: "Uncategorized", value: 0 },
+    { key: "health", text: "Health", value: 1 },
+    { key: "educational", text: "Educational", value: 2 },
+    { key: "sports", text: "Sports", value: 3 },
+    { key: "technology", text: "Technology", value: 4 },
+    { key: "history", text: "History", value: 5 },
+    // { key: "favorites", text: "Favorites", value: "favorites" },
 ];
 
 const AddForm = (props) => {
@@ -30,7 +31,7 @@ const AddForm = (props) => {
         title: "",
         publisher: "",
         description: "",
-        //categories: ["uncategorized"],
+        categories: [0],
     });
 
     const [errors, setErrors] = useState({
@@ -38,7 +39,7 @@ const AddForm = (props) => {
         title: "",
         publisher: "",
         description: "",
-        //categories: "",
+        categories: "",
     });
 
     const formSchema = yup.object().shape({
@@ -46,7 +47,7 @@ const AddForm = (props) => {
         title: yup.string().required("Title is a required field"),
         publisher: yup.string().required("Author is a required field"),
         description: yup.string(),
-        //categories: yup.array().required("Categories is a required field"),
+        categories: yup.array().required("Categories is a required field"),
     });
 
     const [errorState, setErrorState] = useState({
@@ -64,6 +65,7 @@ const AddForm = (props) => {
     }, [formState, formSchema]);
 
     const inputChange = (e) => {
+        console.log("change");
         e.persist();
 
         yup.reach(formSchema, e.target.name)
@@ -95,8 +97,8 @@ const AddForm = (props) => {
             url: "",
             title: "",
             publisher: "",
-            //categories: [],
             description: "",
+            categories: [],
         });
     };
 
@@ -107,32 +109,20 @@ const AddForm = (props) => {
                     <Sidebar />
                     <Grid.Column width={10}>
                         <Grid columns={4} className="articles-form">
+                            {props.message ? (
+                                <Message size="tiny" color="red" compact>
+                                    {props.message}
+                                </Message>
+                            ) : null}
                             <p className="form-heading">Add Article</p>
                             <Form onSubmit={submitForm}>
-                                {props.message ? (
-                                    <Message size="tiny" color="red" compact>
-                                        {props.message}
-                                    </Message>
-                                ) : null}
-                                <Form.Field>
-                                    {errorState.url ? (
-                                        <p className="error">
-                                            {errorState.url}
-                                        </p>
-                                    ) : null}
-                                    <Form.Input
-                                        label="Url"
-                                        placeholder="https://"
-                                        type="text"
-                                        id="url"
-                                        name="url"
-                                        onChange={inputChange}
-                                        value={formState.url}
-                                    />
-                                </Form.Field>
                                 <Form.Field>
                                     {errorState.title ? (
                                         <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
                                             {errorState.title}
                                         </p>
                                     ) : null}
@@ -147,8 +137,33 @@ const AddForm = (props) => {
                                     />
                                 </Form.Field>
                                 <Form.Field>
+                                    {errorState.url ? (
+                                        <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
+                                            {errorState.url}
+                                        </p>
+                                    ) : null}
+                                    <Form.Input
+                                        label="Url"
+                                        placeholder="https://"
+                                        type="text"
+                                        id="url"
+                                        name="url"
+                                        onChange={inputChange}
+                                        value={formState.url}
+                                    />
+                                </Form.Field>
+
+                                <Form.Field>
                                     {errorState.publisher ? (
                                         <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
                                             {errorState.publisher}
                                         </p>
                                     ) : null}
@@ -162,9 +177,13 @@ const AddForm = (props) => {
                                         value={formState.publisher}
                                     />
                                 </Form.Field>
-                                {/* <Form.Field>
+                                <Form.Field>
                                     {errorState.categories ? (
                                         <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
                                             {errorState.categories}
                                         </p>
                                     ) : null}
@@ -172,26 +191,22 @@ const AddForm = (props) => {
                                         Categories
                                     </label>
                                     <Dropdown
-                                        placeholder="Skills"
+                                        placeholder="Categories"
                                         fluid
                                         multiple
                                         selection
                                         onChange={(e, data) => {
-                                            console.log(data.value);
+                                            //console.log(data.value);
                                             setFormState({
+                                                ...formState,
                                                 categories: data.value,
                                             });
                                         }}
                                         value={formState.categories}
                                         options={categories}
                                     />
-                                </Form.Field> */}
+                                </Form.Field>
                                 <Form.Field>
-                                    {errorState.description ? (
-                                        <p className="error">
-                                            {errorState.description}
-                                        </p>
-                                    ) : null}
                                     <Form.TextArea
                                         label="Description"
                                         id="description"

@@ -77,7 +77,13 @@ const Login = (props) => {
                     ) : null}
                     <Form.Field>
                         {errors.username ? (
-                            <p className="error">{errors.username}</p>
+                            <p className="error">
+                                <i
+                                    aria-hidden="true"
+                                    className="small red cancel icon"
+                                ></i>
+                                {errors.username}
+                            </p>
                         ) : null}
                         <Form.Input
                             type="text"
@@ -91,7 +97,13 @@ const Login = (props) => {
                     </Form.Field>
                     <Form.Field>
                         {errors.password ? (
-                            <p className="error">{errors.password}</p>
+                            <p className="error">
+                                <i
+                                    aria-hidden="true"
+                                    className="small red cancel icon"
+                                ></i>
+                                {errors.password}
+                            </p>
                         ) : null}
                         <Form.Input
                             type="password"

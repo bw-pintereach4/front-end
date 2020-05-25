@@ -8,6 +8,7 @@ export const checkUser = (values, props) => (dispatch) => {
     axiosWithAuth()
         .post("/auth/login", values)
         .then((res) => {
+            //console.log(res);
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("user", res.data.userId);
             props.history.push("/articles");

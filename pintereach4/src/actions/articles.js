@@ -24,6 +24,8 @@ export const getArticles = () => (dispatch) => {
 };
 
 export const postArticle = (values) => (dispatch) => {
+    console.log(values);
+
     dispatch({ type: ACTION_START });
 
     axiosWithAuth()
@@ -34,16 +36,17 @@ export const postArticle = (values) => (dispatch) => {
             url: values.url,
             publisher: values.publisher,
             description: values.description,
+            categories: values.categories,
         })
         .then((res) => {
             console.log("axios result", res);
-            dispatch({ type: POST_ARTICLE, payload: "Article posted." });
+            //dispatch({ type: POST_ARTICLE, payload: "Article posted." });
         })
         .catch((err) => {
             console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
-                payload: "Error is post request articles",
+                payload: "Error in post request articles",
             });
         });
 };
