@@ -7,9 +7,18 @@ import { getArticlesById } from "../actions/articles";
 import { deleteArticle } from "../actions/articles";
 
 const ArticlesByCategory = (props) => {
+    const {
+        getArticlesById,
+        deleteArticle,
+        //isLoading,
+        isLoaded,
+        articles,
+        message,
+    } = props;
+
     useEffect(() => {
-        props.getArticlesById(props.match.params.id);
-    }, [props.match.params.id]);
+        getArticlesById(props.match.params.id);
+    }, [props.match.params.id, getArticlesById]);
 
     return (
         <Container className="dashboard">
@@ -18,14 +27,14 @@ const ArticlesByCategory = (props) => {
                     <Sidebar />
                     <Grid.Column width={13}>
                         <Grid columns={4} className="articles">
-                            {props.message ? (
+                            {message ? (
                                 <Message size="tiny" color="red">
-                                    {props.message}
+                                    {message}
                                 </Message>
                             ) : null}
                             <Grid.Row>
-                                {props.isLoaded
-                                    ? props.articles.map((article, index) => {
+                                {isLoaded
+                                    ? articles.map((article, index) => {
                                           return (
                                               <Grid.Column
                                                   className="article"
@@ -56,7 +65,7 @@ const ArticlesByCategory = (props) => {
                                                           </span>
                                                           <span
                                                               onClick={() => {
-                                                                  props.deleteArticle(
+                                                                  deleteArticle(
                                                                       article.id
                                                                   );
                                                               }}

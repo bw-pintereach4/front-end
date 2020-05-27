@@ -2,17 +2,21 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Container, Grid, Form, Button, Dropdown } from "semantic-ui-react";
 import * as yup from "yup";
+import { getArticleById } from "../actions/articles";
 import { getCategories } from "../actions/articles";
 import Sidebar from "./Sidebar";
 
-const EditForm = ({
-    getCategories,
-    isLoading,
-    isLoaded,
-    articles,
-    message,
-    categories,
-}) => {
+const EditForm = (props) => {
+    console.log(props);
+    const {
+        getCategories,
+        getArticleById,
+        // isLoading,
+        // isLoaded,
+        // article,
+        // message,
+        categories,
+    } = props;
     const [buttonState, setButtonState] = useState();
     const [formState, setFormState] = useState({
         url: "",
@@ -39,8 +43,9 @@ const EditForm = ({
     });
 
     useEffect(() => {
+        getArticleById(1);
         getCategories();
-    }, [getCategories]);
+    }, [getCategories, getArticleById]);
 
     useEffect(() => {
         formSchema.isValid(formState).then((valid) => {
@@ -206,10 +211,12 @@ const mapStateToProps = (state) => {
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,
-        articles: state.articles.articles,
+        article: state.articles.article,
         message: state.articles.message,
         categories: state.articles.categories,
     };
 };
 
-export default connect(mapStateToProps, { getCategories })(EditForm);
+export default connect(mapStateToProps, { getCategories, getArticleById })(
+    EditForm
+);

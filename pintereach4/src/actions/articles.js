@@ -3,7 +3,8 @@ import { axiosWithAuth } from "../util/axiosWithAuth";
 export const ACTION_START = "SIGN_IN_START";
 export const ACTION_ERROR = "SIGN_IN_ERROR";
 export const GET_ARTICLE = "GET_ARTICLE";
-export const GET_ARTICLE_BY_ID = "GET_ARTICLE_BY_ID";
+export const GET_ARTICLES = "GET_ARTICLES";
+export const GET_ARTICLES_BY_ID = "GET_ARTICLES_BY_ID";
 export const POST_ARTICLE = "POST_ARTICLE";
 export const DELETE_ARTICLE = "DELETE_ARTICLE";
 export const GET_CATEGORIES = "GET_CATEGORIES";
@@ -15,13 +16,31 @@ export const getArticles = () => (dispatch) => {
         .get("/articles")
         .then((res) => {
             //console.log("axios result", res);
-            dispatch({ type: GET_ARTICLE, payload: res.data });
+            dispatch({ type: GET_ARTICLES, payload: res.data });
         })
         .catch((err) => {
             console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
                 payload: "Error in get request articles.",
+            });
+        });
+};
+
+export const getArticleById = (id) => (dispatch) => {
+    dispatch({ type: ACTION_START });
+
+    axiosWithAuth()
+        .get(`/articles/${id}`)
+        .then((res) => {
+            console.log("axios get by id result", res);
+            //dispatch({ type: GET_ARTICLE, payload: res.data });
+        })
+        .catch((err) => {
+            console.log("Err is: ", err);
+            dispatch({
+                type: ACTION_ERROR,
+                payload: "Error in get request article by id.",
             });
         });
 };
@@ -34,7 +53,7 @@ export const getArticlesById = (id) => (dispatch) => {
         .then((res) => {
             //console.log("axios result by id", res);
             //console.log(res);
-            dispatch({ type: GET_ARTICLE_BY_ID, payload: res.data });
+            dispatch({ type: GET_ARTICLES_BY_ID, payload: res.data });
         })
         .catch((err) => {
             console.log("Err is: ", err);
