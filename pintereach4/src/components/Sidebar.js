@@ -1,8 +1,17 @@
-import React from "react";
-import { Grid, Divider, List } from "semantic-ui-react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Grid, Divider } from "semantic-ui-react";
 
-const Sidebar = (props) => {
+import { getCategories } from "../actions/articles";
+
+const icons = ["heart", "book", "cogs", "futbol", "archive"];
+
+const Sidebar = ({ getCategories, isLoading, isLoaded, categories }) => {
     const user = localStorage.getItem("user");
+
+    useEffect(() => {
+        getCategories();
+    }, [getCategories]);
 
     return (
         <Grid.Column width={3}>
@@ -19,32 +28,52 @@ const Sidebar = (props) => {
                     href="/"
                     onClick={() => {
                         localStorage.removeItem("token");
+                        localStorage.removeItem("user");
                     }}
                 >
                     Logout
                 </a>
             </p>
             <Divider hidden />
-            <a className="ui negative button" href="/add-article">
+            <a className="ui brown button" href="/add-article">
                 Add New Article
             </a>
             <Divider hidden />
-            <List className="categories">
-                <List.Item
-                    icon="tag"
-                    content={<a href="/dashboard">All Articles</a>}
-                />
-                <List.Item icon="star" content={<a href="#">Favorites</a>} />
-                <List.Item icon="heartbeat" content={<a href="#">Health</a>} />
-                <List.Item icon="write" content={<a href="#">Educational</a>} />
-                <List.Item icon="futbol" content={<a href="#">Sports</a>} />
-                <List.Item icon="fork" content={<a href="#">Technology</a>} />
-                <List.Item icon="find" content={<a href="#">History</a>} />
-            </List>
+            <ul className="categories">
+                <li>
+                    <a href="/articles/">
+                        <i aria-hidden="true" className="server small icon"></i>{" "}
+                        All Articles
+                    </a>
+                </li>
+                {categories.map((category, index) => {
+                    return (
+                        <li key={category.id}>
+                            <i
+                                aria-hidden="true"
+                                className={`${icons[index]} small icon`}
+                            ></i>
+                            <a href={`/articles/category/${category.id}`}>
+                                {category.category_name}
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
             <Divider hidden />
             <p>&copy; All rights reserved.</p>
         </Grid.Column>
     );
 };
 
-export default Sidebar;
+// hook up the connect to our store
+const mapStateToProps = (state) => {
+    //console.log("sidebar state", state);
+    return {
+        isLoading: state.articles.isLoading,
+        isLoaded: state.articles.isLoaded,
+        categories: state.articles.categories,
+    };
+};
+
+export default connect(mapStateToProps, { getCategories })(Sidebar);

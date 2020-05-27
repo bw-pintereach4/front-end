@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { registerUser } from "../actions/usersRegister";
-import { Container, Button, Form, Icon } from "semantic-ui-react";
+import { Container, Button, Form, Message } from "semantic-ui-react";
 import * as yup from "yup";
 
 const SignUp = (props) => {
     const [user, setUser] = useState({
-        firstname: "",
-        lastname: "",
+        first_name: "",
+        last_name: "",
         email: "",
         username: "",
         password: "",
     });
 
     const [errors, setErrors] = useState({
-        firstname: "",
-        lastname: "",
+        first_name: "",
+        last_name: "",
         email: "",
         username: "",
         password: "",
@@ -24,8 +24,8 @@ const SignUp = (props) => {
     const [buttonState, setButtonState] = useState();
 
     const formSchema = yup.object().shape({
-        firstname: yup.string().required("First Name is a required field"),
-        lastname: yup.string().required("Last Name is a required field"),
+        first_name: yup.string().required("First Name is a required field"),
+        last_name: yup.string().required("Last Name is a required field"),
         email: yup
             .string()
             .email("Needs email format")
@@ -34,7 +34,7 @@ const SignUp = (props) => {
         password: yup
             .string()
             .required("Password is a required field")
-            .min(5, "Passwords must be at least 6 characters long."),
+            .min(6, "Passwords must be at least 6 characters long."),
     });
 
     const handleChange = (e) => {
@@ -69,48 +69,77 @@ const SignUp = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log("user", user);
         props.registerUser(user);
+        setUser({
+            first_name: "",
+            last_name: "",
+            email: "",
+            username: "",
+            password: "",
+        });
     };
 
     return (
         <Container>
             <div className="form-wrapper">
-                <p className="notification">
-                    {props.message ? props.message : null}
-                </p>
-                <Icon circular inverted color="red" name="linkify" />
+                <i
+                    aria-hidden="true"
+                    className="brown linkify circular inverted icon"
+                ></i>
                 <h1>Pintereach</h1>
                 <Form onSubmit={submitHandler}>
-                    {errors.firstname ? (
-                        <p className="error">{errors.firstname}</p>
+                    {props.message ? (
+                        <Message size="tiny" color="green" compact>
+                            {props.message}
+                        </Message>
                     ) : null}
-                    {errors.lastname ? (
-                        <p className="error">{errors.lastname}</p>
+                    {errors.first_name ? (
+                        <p className="error">
+                            <i
+                                aria-hidden="true"
+                                className="small red cancel icon"
+                            ></i>
+                            {errors.first_name}
+                        </p>
+                    ) : null}
+                    {errors.last_name ? (
+                        <p className="error">
+                            <i
+                                aria-hidden="true"
+                                className="small red cancel icon"
+                            ></i>
+                            {errors.last_name}
+                        </p>
                     ) : null}
                     <Form.Group widths="equal">
                         <Form.Input
                             type="text"
-                            name="firstname"
+                            name="first_name"
                             className="form-control"
                             placeholder="First Name"
-                            value={user.firstname}
+                            value={user.first_name}
                             onChange={handleChange}
                             required
                         />
                         <Form.Input
                             type="text"
-                            name="lastname"
+                            name="last_name"
                             className="form-control"
                             placeholder="Last Name"
-                            value={user.lastname}
+                            value={user.last_name}
                             onChange={handleChange}
                             required
                         />
                     </Form.Group>
                     <Form.Field>
                         {errors.email ? (
-                            <p className="error">{errors.email}</p>
+                            <p className="error">
+                                <i
+                                    aria-hidden="true"
+                                    className="small red cancel icon"
+                                ></i>
+                                {errors.email}
+                            </p>
                         ) : null}
                         <Form.Input
                             type="email"
@@ -124,7 +153,13 @@ const SignUp = (props) => {
                     </Form.Field>
                     <Form.Field>
                         {errors.username ? (
-                            <p className="error">{errors.username}</p>
+                            <p className="error">
+                                <i
+                                    aria-hidden="true"
+                                    className="small red cancel icon"
+                                ></i>
+                                {errors.username}
+                            </p>
                         ) : null}
                         <Form.Input
                             type="text"
@@ -138,7 +173,13 @@ const SignUp = (props) => {
                     </Form.Field>
                     <Form.Field>
                         {errors.password ? (
-                            <p className="error">{errors.password}</p>
+                            <p className="error">
+                                <i
+                                    aria-hidden="true"
+                                    className="small red cancel icon"
+                                ></i>
+                                {errors.password}
+                            </p>
                         ) : null}
                         <Form.Input
                             type="password"
@@ -154,6 +195,9 @@ const SignUp = (props) => {
                         Signup
                     </Button>
                 </Form>
+                <p className="signUp-text">
+                    Already a member? <a href="/login">Login..</a>
+                </p>
             </div>
         </Container>
     );
@@ -161,7 +205,7 @@ const SignUp = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("state", state);
+    //console.log("sign up state", state);
     return {
         isLoading: state.usersRegister.isLoading,
         isLoaded: state.usersRegister.isLoaded,
