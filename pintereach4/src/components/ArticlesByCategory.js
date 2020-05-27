@@ -18,58 +18,60 @@ const ArticlesByCategory = (props) => {
                     <Sidebar />
                     <Grid.Column width={13}>
                         <Grid columns={4} className="articles">
+                            {props.message ? (
+                                <Message size="tiny" color="red">
+                                    {props.message}
+                                </Message>
+                            ) : null}
                             <Grid.Row>
-                                {props.isLoaded ? (
-                                    props.articles.map((article, index) => {
-                                        return (
-                                            <Grid.Column
-                                                className="article"
-                                                key={index}
-                                            >
-                                                <Card>
-                                                    <Card.Content
-                                                        href={article.url}
-                                                        target="_blank"
-                                                        header={article.name}
-                                                        meta={article.publisher}
-                                                        description={article.description.substr(
-                                                            0,
-                                                            35
-                                                        )}
-                                                    />
-                                                    <div className="card-buttons">
-                                                        <a
-                                                            type="button"
-                                                            href={`/edit-article/${article.id}`}
-                                                        >
-                                                            <i
-                                                                aria-hidden="true"
-                                                                className="brown edit circular inverted icon"
-                                                            ></i>
-                                                        </a>
-                                                        <a
-                                                            href="#"
-                                                            onClick={() => {
-                                                                props.deleteArticle(
-                                                                    article.id
-                                                                );
-                                                            }}
-                                                        >
-                                                            <i
-                                                                aria-hidden="true"
-                                                                className="brown trash circular inverted icon"
-                                                            ></i>
-                                                        </a>
-                                                    </div>
-                                                </Card>
-                                            </Grid.Column>
-                                        );
-                                    })
-                                ) : (
-                                    <Message size="tiny" color="red">
-                                        No articles related to this category..
-                                    </Message>
-                                )}
+                                {props.isLoaded
+                                    ? props.articles.map((article, index) => {
+                                          return (
+                                              <Grid.Column
+                                                  className="article"
+                                                  key={index}
+                                              >
+                                                  <Card>
+                                                      <Card.Content
+                                                          href={article.url}
+                                                          target="_blank"
+                                                          header={article.name}
+                                                          meta={
+                                                              article.publisher
+                                                          }
+                                                          description={article.description.substr(
+                                                              0,
+                                                              35
+                                                          )}
+                                                      />
+                                                      <div className="card-buttons">
+                                                          <span
+                                                              type="button"
+                                                              href={`/edit-article/${article.id}`}
+                                                          >
+                                                              <i
+                                                                  aria-hidden="true"
+                                                                  className="brown edit circular inverted icon"
+                                                              ></i>
+                                                          </span>
+                                                          <span
+                                                              onClick={() => {
+                                                                  props.deleteArticle(
+                                                                      article.id
+                                                                  );
+                                                              }}
+                                                          >
+                                                              <i
+                                                                  aria-hidden="true"
+                                                                  className="brown trash circular inverted icon"
+                                                              ></i>
+                                                          </span>
+                                                      </div>
+                                                  </Card>
+                                              </Grid.Column>
+                                          );
+                                      })
+                                    : null}
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
@@ -81,7 +83,7 @@ const ArticlesByCategory = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("article state", state);
+    console.log("article by category state", state);
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,

@@ -5,16 +5,14 @@ import * as yup from "yup";
 import { getCategories } from "../actions/articles";
 import Sidebar from "./Sidebar";
 
-// const categories = [
-//     { key: "uncategorized", text: "Uncategorized", value: 0 },
-//     { key: "health", text: "Health", value: 1 },
-//     { key: "educational", text: "Educational", value: 2 },
-//     { key: "sports", text: "Sports", value: 3 },
-//     { key: "technology", text: "Technology", value: 4 },
-//     { key: "history", text: "History", value: 5 },
-// ];
-
-const EditForm = (props) => {
+const EditForm = ({
+    getCategories,
+    isLoading,
+    isLoaded,
+    articles,
+    message,
+    categories,
+}) => {
     const [buttonState, setButtonState] = useState();
     const [formState, setFormState] = useState({
         url: "",
@@ -41,8 +39,8 @@ const EditForm = (props) => {
     });
 
     useEffect(() => {
-        props.getCategories();
-    }, []);
+        getCategories();
+    }, [getCategories]);
 
     useEffect(() => {
         formSchema.isValid(formState).then((valid) => {
@@ -77,7 +75,7 @@ const EditForm = (props) => {
     const submitForm = (e) => {
         e.preventDefault();
         console.log(formState);
-        //props.addArticle(formState);
+        //addArticle(formState);
         // setFormState({
         //     url: "",
         //     title: "",
@@ -165,16 +163,13 @@ const EditForm = (props) => {
                                             });
                                         }}
                                         value={formState.categories}
-                                        options={props.categories.map(
-                                            (category) => {
-                                                return {
-                                                    key: category.id,
-                                                    text:
-                                                        category.category_name,
-                                                    value: category.id,
-                                                };
-                                            }
-                                        )}
+                                        options={categories.map((category) => {
+                                            return {
+                                                key: category.id,
+                                                text: category.category_name,
+                                                value: category.id,
+                                            };
+                                        })}
                                     />
                                 </Form.Field>
                                 <Form.Field>
@@ -207,7 +202,7 @@ const EditForm = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    //console.log("article state", state);
+    //console.log("edit form state", state);
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,

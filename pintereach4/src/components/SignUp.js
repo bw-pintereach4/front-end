@@ -205,7 +205,7 @@ const SignUp = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("state", state);
+    //console.log("sign up state", state);
     return {
         isLoading: state.usersRegister.isLoading,
         isLoaded: state.usersRegister.isLoaded,

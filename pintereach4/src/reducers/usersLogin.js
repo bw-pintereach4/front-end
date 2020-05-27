@@ -1,7 +1,10 @@
-import { SIGN_IN_START, SIGN_IN_ERROR } from "../actions/usersLogin";
+import {
+    SIGN_IN_START,
+    SIGN_IN_SUCCESS,
+    SIGN_IN_ERROR,
+} from "../actions/usersLogin";
 
 const initialState = {
-    username: "",
     isLoading: false,
     isLoaded: false,
     message: null,
@@ -14,6 +17,13 @@ export function usersLogin(state = initialState, action) {
                 ...state,
                 isLoading: true,
                 isLoaded: false,
+            };
+        case SIGN_IN_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                isLoaded: true,
+                message: action.payload,
             };
         case SIGN_IN_ERROR:
             return {

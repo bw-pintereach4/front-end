@@ -15,7 +15,11 @@ function App() {
         <Router>
             <div className="App">
                 <Switch>
-                    <Route exact path="/" component={Login} />
+                    <Route
+                        exact
+                        path="/"
+                        render={(props) => <Login {...props} />}
+                    />
                     <Route
                         path="/login"
                         render={(props) => <Login {...props} />}
@@ -28,6 +32,7 @@ function App() {
                         path="/logout"
                         render={(props) => <Login {...props} />}
                     />
+
                     <PrivateRoute exact path="/articles" component={Articles} />
                     <PrivateRoute
                         exact

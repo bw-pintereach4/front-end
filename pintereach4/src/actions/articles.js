@@ -40,7 +40,10 @@ export const getArticlesById = (id) => (dispatch) => {
             console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
-                payload: "Error in get request articles.",
+                payload:
+                    err.response.status === 404
+                        ? "No articles related to this category..."
+                        : "Error in get request articles.",
             });
         });
 };

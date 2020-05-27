@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Grid, Divider, List } from "semantic-ui-react";
+import { Grid, Divider } from "semantic-ui-react";
 
 import { getCategories } from "../actions/articles";
 
-const Sidebar = (props) => {
+const icons = ["heart", "book", "cogs", "futbol", "archive"];
+
+const Sidebar = ({ getCategories, isLoading, isLoaded, categories }) => {
     const user = localStorage.getItem("user");
 
     useEffect(() => {
-        props.getCategories();
-    }, []);
-
-    //console.log(props.categories);
+        getCategories();
+    }, [getCategories]);
 
     return (
         <Grid.Column width={3}>
@@ -41,11 +41,18 @@ const Sidebar = (props) => {
             <Divider hidden />
             <ul className="categories">
                 <li>
-                    <a href="/articles/">All Articles</a>
+                    <a href="/articles/">
+                        <i aria-hidden="true" className="server small icon"></i>{" "}
+                        All Articles
+                    </a>
                 </li>
-                {props.categories.map((category) => {
+                {categories.map((category, index) => {
                     return (
                         <li key={category.id}>
+                            <i
+                                aria-hidden="true"
+                                className={`${icons[index]} small icon`}
+                            ></i>
                             <a href={`/articles/category/${category.id}`}>
                                 {category.category_name}
                             </a>
@@ -61,7 +68,7 @@ const Sidebar = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("sidebar state", state);
+    //console.log("sidebar state", state);
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,

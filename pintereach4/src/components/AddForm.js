@@ -13,7 +13,14 @@ import {
 import * as yup from "yup";
 import Sidebar from "./Sidebar";
 
-const AddForm = (props) => {
+const AddForm = ({
+    postArticle,
+    getCategories,
+    // isLoading,
+    // isLoaded,
+    message,
+    categories,
+}) => {
     //const user = localStorage.getItem("user");
     const [buttonState, setButtonState] = useState();
     const [formState, setFormState] = useState({
@@ -28,7 +35,9 @@ const AddForm = (props) => {
         url: yup.string().required("URL is a required field"),
         title: yup.string().required("Title is a required field"),
         publisher: yup.string().required("Author is a required field"),
-        description: yup.string(),
+        description: yup
+            .string()
+            .min(10, "Description must be at least 10 characters long."),
         categories: yup.array().required("Categories is a required field"),
     });
 
@@ -41,8 +50,8 @@ const AddForm = (props) => {
     });
 
     useEffect(() => {
-        props.getCategories();
-    }, []);
+        getCategories();
+    }, [getCategories]);
 
     useEffect(() => {
         formSchema.isValid(formState).then((valid) => {
@@ -77,7 +86,7 @@ const AddForm = (props) => {
     const submitForm = (e) => {
         e.preventDefault();
         //console.log(formState);
-        props.postArticle(formState);
+        postArticle(formState);
         setFormState({
             url: "",
             title: "",
@@ -94,9 +103,9 @@ const AddForm = (props) => {
                     <Sidebar />
                     <Grid.Column width={10}>
                         <Grid columns={4} className="articles-form">
-                            {props.message ? (
+                            {message ? (
                                 <Message size="tiny" color="green">
-                                    {props.message}
+                                    {message}
                                 </Message>
                             ) : null}
                             <p className="form-heading">Add Article</p>
@@ -188,19 +197,25 @@ const AddForm = (props) => {
                                             });
                                         }}
                                         value={formState.categories}
-                                        options={props.categories.map(
-                                            (category) => {
-                                                return {
-                                                    key: category.id,
-                                                    text:
-                                                        category.category_name,
-                                                    value: category.id,
-                                                };
-                                            }
-                                        )}
+                                        options={categories.map((category) => {
+                                            return {
+                                                key: category.id,
+                                                text: category.category_name,
+                                                value: category.id,
+                                            };
+                                        })}
                                     />
                                 </Form.Field>
                                 <Form.Field>
+                                    {errorState.description ? (
+                                        <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
+                                            {errorState.description}
+                                        </p>
+                                    ) : null}
                                     <Form.TextArea
                                         label="Description"
                                         id="description"
@@ -225,10 +240,10 @@ const AddForm = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("article state", state);
+    //console.log("add form state", state);
     return {
-        isLoading: state.articles.isLoading,
-        isLoaded: state.articles.isLoaded,
+        // isLoading: state.articles.isLoading,
+        // isLoaded: state.articles.isLoaded,
         message: state.articles.message,
         categories: state.articles.categories,
     };

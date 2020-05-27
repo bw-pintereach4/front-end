@@ -129,7 +129,7 @@ const Login = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("state", state);
+    console.log("login state", state);
     return {
         isLoading: state.usersLogin.isLoading,
         isLoaded: state.usersLogin.isLoaded,

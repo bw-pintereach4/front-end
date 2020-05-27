@@ -6,10 +6,17 @@ import Sidebar from "./Sidebar";
 import { getArticles } from "../actions/articles";
 import { deleteArticle } from "../actions/articles";
 
-const Articles = (props) => {
+const Articles = ({
+    getArticles,
+    deleteArticle,
+    isLoading,
+    isLoaded,
+    articles,
+    message,
+}) => {
     useEffect(() => {
-        props.getArticles();
-    }, []);
+        getArticles();
+    }, [getArticles]);
 
     //console.log("..", props.articles);
     return (
@@ -18,15 +25,15 @@ const Articles = (props) => {
                 <Grid.Row>
                     <Sidebar />
                     <Grid.Column width={13}>
-                        {props.message ? (
+                        {message ? (
                             <Message size="tiny" color="red">
-                                {props.message}
+                                {message}
                             </Message>
                         ) : null}
                         <Grid columns={4} className="articles">
                             <Grid.Row>
-                                {props.isLoaded ? (
-                                    props.articles.map((article) => {
+                                {isLoaded ? (
+                                    articles.map((article) => {
                                         return (
                                             <Grid.Column
                                                 className="article"
@@ -53,10 +60,10 @@ const Articles = (props) => {
                                                                 className="brown edit circular inverted icon"
                                                             ></i>
                                                         </a>
-                                                        <a
-                                                            href="#"
+                                                        <span
+                                                            type="button"
                                                             onClick={() => {
-                                                                props.deleteArticle(
+                                                                deleteArticle(
                                                                     article.id
                                                                 );
                                                             }}
@@ -65,14 +72,16 @@ const Articles = (props) => {
                                                                 aria-hidden="true"
                                                                 className="brown trash circular inverted icon"
                                                             ></i>
-                                                        </a>
+                                                        </span>
                                                     </div>
                                                 </Card>
                                             </Grid.Column>
                                         );
                                     })
                                 ) : (
-                                    <p>Loading articles..</p>
+                                    <Message size="tiny" color="green">
+                                        <p>Loading articles..</p>
+                                    </Message>
                                 )}
                             </Grid.Row>
                         </Grid>
@@ -85,7 +94,7 @@ const Articles = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("article state", state);
+    console.log("article/dashboard state", state);
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,

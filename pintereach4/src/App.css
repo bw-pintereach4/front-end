@@ -23,6 +23,9 @@ pre {
 a {
     color: #76323f;
 }
+span:hover {
+    cursor: pointer;
+}
 .error {
     color: #76323f;
 }
@@ -70,11 +73,12 @@ a {
 }
 .categories {
     padding: 0;
+    list-style-type: none;
 }
-.categories .item:nth-child(1) {
+.categories li:nth-child(1) {
     margin-bottom: 20px;
 }
-.categories .item i {
+.categories li i {
     color: #76323f;
 }
 .dashboard .articles-form {
