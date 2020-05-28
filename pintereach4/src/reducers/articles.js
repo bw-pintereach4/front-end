@@ -5,7 +5,7 @@ import {
     GET_ARTICLES,
     GET_ARTICLES_BY_ID,
     POST_ARTICLE,
-    // EDIT_ARTICLE,
+    EDIT_ARTICLE,
     DELETE_ARTICLE,
     GET_CATEGORIES,
 } from "../actions/articles";
@@ -50,6 +50,7 @@ export function articles(state = initialState, action) {
                 isLoaded: true,
             };
         case POST_ARTICLE:
+        case EDIT_ARTICLE:
         case DELETE_ARTICLE:
             return {
                 ...state,

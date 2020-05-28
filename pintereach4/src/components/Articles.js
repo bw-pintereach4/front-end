@@ -30,6 +30,7 @@ const Articles = ({
                                 {message}
                             </Message>
                         ) : null}
+
                         <Grid columns={4} className="articles">
                             <Grid.Row>
                                 {isLoaded ? (
