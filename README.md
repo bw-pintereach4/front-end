@@ -1,5 +1,5 @@
 # front-end
 
-default user\
+**default user**\
 user: test1\
 password: test
