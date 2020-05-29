@@ -2,30 +2,41 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Container, Grid, Card, Message } from "semantic-ui-react";
 import Sidebar from "./Sidebar";
+import Header from "./Header";
 
 import { getArticlesById } from "../actions/articles";
 import { deleteArticle } from "../actions/articles";
 
 const ArticlesByCategory = (props) => {
+    const {
+        getArticlesById,
+        deleteArticle,
+        //isLoading,
+        isLoaded,
+        articles,
+        message,
+    } = props;
+
     useEffect(() => {
-        props.getArticlesById(props.match.params.id);
-    }, [props.match.params.id]);
+        getArticlesById(props.match.params.id);
+    }, [props.match.params.id, getArticlesById]);
 
     return (
         <Container className="dashboard">
+            <Header />
             <Grid columns={2} divided>
                 <Grid.Row>
                     <Sidebar />
                     <Grid.Column width={13}>
                         <Grid columns={4} className="articles">
-                            {props.message ? (
+                            {message ? (
                                 <Message size="tiny" color="red">
-                                    {props.message}
+                                    {message}
                                 </Message>
                             ) : null}
                             <Grid.Row>
-                                {props.isLoaded
-                                    ? props.articles.map((article, index) => {
+                                {isLoaded
+                                    ? articles.map((article, index) => {
                                           return (
                                               <Grid.Column
                                                   className="article"
@@ -45,7 +56,7 @@ const ArticlesByCategory = (props) => {
                                                           )}
                                                       />
                                                       <div className="card-buttons">
-                                                          <span
+                                                          <a
                                                               type="button"
                                                               href={`/edit-article/${article.id}`}
                                                           >
@@ -53,10 +64,11 @@ const ArticlesByCategory = (props) => {
                                                                   aria-hidden="true"
                                                                   className="brown edit circular inverted icon"
                                                               ></i>
-                                                          </span>
+                                                          </a>
                                                           <span
+                                                              type="button"
                                                               onClick={() => {
-                                                                  props.deleteArticle(
+                                                                  deleteArticle(
                                                                       article.id
                                                                   );
                                                               }}
@@ -83,7 +95,7 @@ const ArticlesByCategory = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("article by category state", state);
+    //console.log("article by category state", state);
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,

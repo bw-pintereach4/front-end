@@ -68,7 +68,15 @@ const Login = (props) => {
                     aria-hidden="true"
                     className="brown linkify circular inverted icon"
                 ></i>
-                <h1>Pintereach</h1>
+                <h1>
+                    <a
+                        href="https://bw-pintereach.netlify.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Pintereach
+                    </a>
+                </h1>
                 <Form onSubmit={submitHandler}>
                     {props.message ? (
                         <Message size="tiny" color="red" compact>
@@ -129,8 +137,9 @@ const Login = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("login state", state);
+    //console.log("login state", state);
     return {
+        user: state.usersLogin.user,
         isLoading: state.usersLogin.isLoading,
         isLoaded: state.usersLogin.isLoaded,
         message: state.usersLogin.message,

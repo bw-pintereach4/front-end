@@ -12,6 +12,7 @@ import {
 } from "semantic-ui-react";
 import * as yup from "yup";
 import Sidebar from "./Sidebar";
+import Header from "./Header";
 
 const AddForm = ({
     postArticle,
@@ -32,12 +33,15 @@ const AddForm = ({
     });
 
     const formSchema = yup.object().shape({
-        url: yup.string().required("URL is a required field"),
+        url: yup
+            .string()
+            .url("Need url in this field, ex. https://google.com")
+            .required("URL is a required field"),
         title: yup.string().required("Title is a required field"),
         publisher: yup.string().required("Author is a required field"),
         description: yup
             .string()
-            .min(10, "Description must be at least 10 characters long."),
+            .min(20, "Description must be at least 20 characters long."),
         categories: yup.array().required("Categories is a required field"),
     });
 
@@ -98,6 +102,7 @@ const AddForm = ({
 
     return (
         <Container className="dashboard">
+            <Header />
             <Grid columns={2} divided>
                 <Grid.Row>
                     <Sidebar />

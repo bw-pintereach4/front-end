@@ -7,7 +7,7 @@ import { getCategories } from "../actions/articles";
 const icons = ["heart", "book", "cogs", "futbol", "archive"];
 
 const Sidebar = ({ getCategories, isLoading, isLoaded, categories }) => {
-    const user = localStorage.getItem("user");
+    //const user = localStorage.getItem("user");
 
     useEffect(() => {
         getCategories();
@@ -15,14 +15,15 @@ const Sidebar = ({ getCategories, isLoading, isLoaded, categories }) => {
 
     return (
         <Grid.Column width={3}>
-            <div className="branding">
-                <h1>Pintereach</h1>
-                <p>
-                    <i>Keep your research in reach</i>
-                </p>
-            </div>
-            <Divider hidden />
             <p>
+                <i>Keep your research in reach..</i>
+            </p>
+            {/* <div className="branding">
+                <h1>Pintereach</h1>
+                
+            </div>
+            <Divider hidden /> */}
+            {/* <p>
                 Welcome {user},{" "}
                 <a
                     href="/"
@@ -33,8 +34,8 @@ const Sidebar = ({ getCategories, isLoading, isLoaded, categories }) => {
                 >
                     Logout
                 </a>
-            </p>
-            <Divider hidden />
+            </p> 
+            <Divider hidden />*/}
             <a className="ui brown button" href="/add-article">
                 Add New Article
             </a>

@@ -5,11 +5,11 @@ import Sidebar from "./Sidebar";
 
 import { getArticles } from "../actions/articles";
 import { deleteArticle } from "../actions/articles";
+import Header from "./Header";
 
 const Articles = ({
     getArticles,
     deleteArticle,
-    isLoading,
     isLoaded,
     articles,
     message,
@@ -21,6 +21,7 @@ const Articles = ({
     //console.log("..", props.articles);
     return (
         <Container className="dashboard">
+            <Header />
             <Grid columns={2} divided>
                 <Grid.Row>
                     <Sidebar />
@@ -30,6 +31,7 @@ const Articles = ({
                                 {message}
                             </Message>
                         ) : null}
+
                         <Grid columns={4} className="articles">
                             <Grid.Row>
                                 {isLoaded ? (
@@ -94,7 +96,7 @@ const Articles = ({
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("article/dashboard state", state);
+    //console.log("article/dashboard state", state);
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,

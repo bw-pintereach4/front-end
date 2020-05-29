@@ -29,6 +29,16 @@ span:hover {
 .error {
     color: #76323f;
 }
+.App .top.menu {
+    max-height: 20px;
+}
+.App .menu h1 {
+    font-size: 1.8rem;
+}
+.App .menu h1 span {
+    font-size: 1rem;
+    font-family: "Montserrat", sans-serif;
+}
 
 /*
     Forms
@@ -87,8 +97,9 @@ span:hover {
 .dashboard .form-heading {
     margin-top: 20px;
 }
-.dashboard .message {
+.App .dashboard .message {
     margin-left: 1rem;
+    margin-top: 11px;
 }
 .App .article {
     margin-bottom: 15px !important;
@@ -99,7 +110,10 @@ span:hover {
 .article .card .content .header {
     color: white;
 }
-.article .card .meta,
+.article .card .meta {
+    color: #76323f;
+    font-style: italic;
+}
 .article .card .content .description {
     color: #76323f;
 }

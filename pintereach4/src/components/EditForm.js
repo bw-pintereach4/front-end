@@ -1,46 +1,105 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
-import { Container, Grid, Form, Button, Dropdown } from "semantic-ui-react";
+import {
+    Container,
+    Grid,
+    Form,
+    Button,
+    Dropdown,
+    Message,
+} from "semantic-ui-react";
 import * as yup from "yup";
+import { getArticleById } from "../actions/articles";
 import { getCategories } from "../actions/articles";
+import { editArticle } from "../actions/articles";
 import Sidebar from "./Sidebar";
+import Header from "./Header";
 
-const EditForm = ({
-    getCategories,
-    isLoading,
-    isLoaded,
-    articles,
-    message,
-    categories,
-}) => {
+const EditForm = (props) => {
+    const {
+        getCategories,
+        getArticleById,
+        editArticle,
+        // isLoading,
+        isLoaded,
+        article,
+        message,
+        categories,
+    } = props;
+
     const [buttonState, setButtonState] = useState();
     const [formState, setFormState] = useState({
         url: "",
         title: "",
-        author: "",
+        publisher: "",
         description: "",
         categories: [],
     });
 
     const formSchema = yup.object().shape({
-        url: yup.string().required("URL is a required field"),
+        url: yup
+            .string()
+            .url("Need url in this field, ex. https://google.com")
+            .required("URL is a required field"),
         title: yup.string().required("Title is a required field"),
-        author: yup.string().required("Author is a required field"),
-        description: yup.string(),
+        publisher: yup.string().required("Author is a required field"),
+        description: yup
+            .string()
+            .min(20, "Description must be at least 20 characters long."),
         categories: yup.array().required("Categories is a required field"),
     });
 
     const [errorState, setErrorState] = useState({
         url: "",
         title: "",
-        author: "",
+        publisher: "",
         description: "",
         categories: [],
     });
 
     useEffect(() => {
+        getArticleById(props.match.params.id);
         getCategories();
-    }, [getCategories]);
+    }, [getCategories, getArticleById, props.match.params.id]);
+
+    const getActiveCategories = useCallback(() => {
+        let temp = [];
+        //console.log("formState article", article);
+
+        let activeCategories = article.categories.map((category) => {
+            return category.category_name;
+        });
+
+        if (isLoaded) {
+            //console.log("formState categories", props.categories);
+            //console.log("active categories", activeCategories);
+
+            for (let i = 0; i < activeCategories.length; i++) {
+                for (let j = 0; j < props.categories.length; j++) {
+                    if (
+                        activeCategories[i] ===
+                        props.categories[j].category_name
+                    ) {
+                        temp.push(props.categories[j].id);
+                    }
+                }
+            }
+        }
+
+        setFormState({
+            url: article.url,
+            title: article.name,
+            publisher: article.publisher,
+            description: article.description,
+            categories: temp,
+        });
+    }, [article, isLoaded, props.categories]);
+
+    useEffect(() => {
+        if (article) {
+            getActiveCategories();
+        }
+    }, [article, getActiveCategories]);
 
     useEffect(() => {
         formSchema.isValid(formState).then((valid) => {
@@ -74,45 +133,38 @@ const EditForm = ({
 
     const submitForm = (e) => {
         e.preventDefault();
-        console.log(formState);
-        //addArticle(formState);
-        // setFormState({
-        //     url: "",
-        //     title: "",
-        //     author: "",
-        //     categories: [],
-        //     description: "",
-        // });
+        //console.log(formState);
+        editArticle(props.match.params.id, formState);
+
+        if (article) {
+            getActiveCategories();
+        }
     };
 
     return (
         <Container className="dashboard">
+            <Header />
             <Grid columns={2} divided>
                 <Grid.Row>
                     <Sidebar />
                     <Grid.Column width={10}>
                         <Grid columns={4} className="articles-form">
-                            <p className="form-heading">Add Article</p>
+                            {message ? (
+                                <Message size="tiny" color="green">
+                                    {message}
+                                </Message>
+                            ) : null}
+                            <p className="form-heading">
+                                Edit Article #{props.match.params.id}
+                            </p>
                             <Form onSubmit={submitForm}>
-                                <Form.Field>
-                                    {errorState.url ? (
-                                        <p className="error">
-                                            {errorState.url}
-                                        </p>
-                                    ) : null}
-                                    <Form.Input
-                                        label="Url"
-                                        placeholder="https://"
-                                        type="text"
-                                        id="url"
-                                        name="url"
-                                        onChange={inputChange}
-                                        value={formState.url}
-                                    />
-                                </Form.Field>
                                 <Form.Field>
                                     {errorState.title ? (
                                         <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
                                             {errorState.title}
                                         </p>
                                     ) : null}
@@ -127,19 +179,44 @@ const EditForm = ({
                                     />
                                 </Form.Field>
                                 <Form.Field>
-                                    {errorState.author ? (
+                                    {errorState.url ? (
                                         <p className="error">
-                                            {errorState.author}
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
+                                            {errorState.url}
                                         </p>
                                     ) : null}
                                     <Form.Input
-                                        label="Author"
+                                        label="Url"
+                                        placeholder="https://"
                                         type="text"
-                                        id="author"
-                                        name="author"
-                                        placeholder="Author"
+                                        id="url"
+                                        name="url"
                                         onChange={inputChange}
-                                        value={formState.author}
+                                        value={formState.url}
+                                    />
+                                </Form.Field>
+
+                                <Form.Field>
+                                    {errorState.publisher ? (
+                                        <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
+                                            {errorState.publisher}
+                                        </p>
+                                    ) : null}
+                                    <Form.Input
+                                        label="Publisher"
+                                        type="text"
+                                        id="publisher"
+                                        name="publisher"
+                                        placeholder="Publisher"
+                                        onChange={inputChange}
+                                        value={formState.publisher}
                                     />
                                 </Form.Field>
                                 <Form.Field>
@@ -157,8 +234,9 @@ const EditForm = ({
                                         multiple
                                         selection
                                         onChange={(e, data) => {
-                                            console.log(data.value);
+                                            //console.log(data.value);
                                             setFormState({
+                                                ...formState,
                                                 categories: data.value,
                                             });
                                         }}
@@ -175,6 +253,10 @@ const EditForm = ({
                                 <Form.Field>
                                     {errorState.description ? (
                                         <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
                                             {errorState.description}
                                         </p>
                                     ) : null}
@@ -192,7 +274,14 @@ const EditForm = ({
                                 </Button>
                             </Form>
                         </Grid>
-                        <pre>{JSON.stringify(formState, null, 2)}</pre>
+                        {/* <pre>
+                            Form Values: <br />
+                            {JSON.stringify(formState, null, 2)}
+                        </pre>
+                        <pre>
+                            Edit Response Values: <br />
+                            {JSON.stringify(article, null, 2)}
+                        </pre> */}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -206,10 +295,14 @@ const mapStateToProps = (state) => {
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,
-        articles: state.articles.articles,
+        article: state.articles.article,
         message: state.articles.message,
         categories: state.articles.categories,
     };
 };
 
-export default connect(mapStateToProps, { getCategories })(EditForm);
+export default connect(mapStateToProps, {
+    getCategories,
+    getArticleById,
+    editArticle,
+})(EditForm);

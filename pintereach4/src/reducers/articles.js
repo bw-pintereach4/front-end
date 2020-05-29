@@ -2,14 +2,16 @@ import {
     ACTION_START,
     ACTION_ERROR,
     GET_ARTICLE,
-    GET_ARTICLE_BY_ID,
+    GET_ARTICLES,
+    GET_ARTICLES_BY_ID,
     POST_ARTICLE,
-    // EDIT_ARTICLE,
+    EDIT_ARTICLE,
     DELETE_ARTICLE,
     GET_CATEGORIES,
 } from "../actions/articles";
 
 const initialState = {
+    article: null,
     articles: [],
     categories: [],
     isLoading: false,
@@ -33,7 +35,14 @@ export function articles(state = initialState, action) {
                 message: action.payload,
             };
         case GET_ARTICLE:
-        case GET_ARTICLE_BY_ID:
+            return {
+                ...state,
+                article: action.payload,
+                isLoading: false,
+                isLoaded: true,
+            };
+        case GET_ARTICLES:
+        case GET_ARTICLES_BY_ID:
             return {
                 ...state,
                 articles: action.payload,
@@ -47,6 +56,14 @@ export function articles(state = initialState, action) {
                 isLoading: false,
                 isLoaded: true,
                 message: action.payload,
+            };
+        case EDIT_ARTICLE:
+            return {
+                ...state,
+                isLoading: false,
+                isLoaded: true,
+                article: action.payload.article,
+                message: action.payload.message,
             };
         case GET_CATEGORIES:
             return {

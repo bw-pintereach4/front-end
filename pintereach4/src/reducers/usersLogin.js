@@ -5,6 +5,7 @@ import {
 } from "../actions/usersLogin";
 
 const initialState = {
+    user: null,
     isLoading: false,
     isLoaded: false,
     message: null,
@@ -23,7 +24,8 @@ export function usersLogin(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 isLoaded: true,
-                message: action.payload,
+                user: action.payload.user,
+                message: action.payload.message,
             };
         case SIGN_IN_ERROR:
             return {
