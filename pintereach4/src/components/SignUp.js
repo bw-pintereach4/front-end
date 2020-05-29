@@ -86,7 +86,15 @@ const SignUp = (props) => {
                     aria-hidden="true"
                     className="brown linkify circular inverted icon"
                 ></i>
-                <h1>Pintereach</h1>
+                <h1>
+                    <a
+                        href="https://bw-pintereach.netlify.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Pintereach
+                    </a>
+                </h1>
                 <Form onSubmit={submitHandler}>
                     {props.message ? (
                         <Message size="tiny" color="green" compact>

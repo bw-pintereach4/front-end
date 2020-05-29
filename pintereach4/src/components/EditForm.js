@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import {
     Container,
@@ -13,6 +13,7 @@ import { getArticleById } from "../actions/articles";
 import { getCategories } from "../actions/articles";
 import { editArticle } from "../actions/articles";
 import Sidebar from "./Sidebar";
+import Header from "./Header";
 
 const EditForm = (props) => {
     const {
@@ -36,10 +37,15 @@ const EditForm = (props) => {
     });
 
     const formSchema = yup.object().shape({
-        url: yup.string().required("URL is a required field"),
+        url: yup
+            .string()
+            .url("Need url in this field, ex. https://google.com")
+            .required("URL is a required field"),
         title: yup.string().required("Title is a required field"),
         publisher: yup.string().required("Author is a required field"),
-        description: yup.string(),
+        description: yup
+            .string()
+            .min(20, "Description must be at least 20 characters long."),
         categories: yup.array().required("Categories is a required field"),
     });
 
@@ -56,40 +62,44 @@ const EditForm = (props) => {
         getCategories();
     }, [getCategories, getArticleById, props.match.params.id]);
 
-    useEffect(() => {
-        if (article) {
-            let temp = [];
-            //console.log("formState article", article);
+    const getActiveCategories = useCallback(() => {
+        let temp = [];
+        //console.log("formState article", article);
 
-            let activeCategories = article.categories.map((category) => {
-                return category.category_name;
-            });
+        let activeCategories = article.categories.map((category) => {
+            return category.category_name;
+        });
 
-            if (isLoaded) {
-                //console.log("formState categories", props.categories);
-                //console.log("active categories", activeCategories);
+        if (isLoaded) {
+            //console.log("formState categories", props.categories);
+            //console.log("active categories", activeCategories);
 
-                for (let i = 0; i < activeCategories.length; i++) {
-                    for (let j = 0; j < props.categories.length; j++) {
-                        if (
-                            activeCategories[i] ===
-                            props.categories[j].category_name
-                        ) {
-                            temp.push(props.categories[j].id);
-                        }
+            for (let i = 0; i < activeCategories.length; i++) {
+                for (let j = 0; j < props.categories.length; j++) {
+                    if (
+                        activeCategories[i] ===
+                        props.categories[j].category_name
+                    ) {
+                        temp.push(props.categories[j].id);
                     }
                 }
             }
-
-            setFormState({
-                url: article.url,
-                title: article.name,
-                publisher: article.publisher,
-                description: article.description,
-                categories: temp,
-            });
         }
-    }, [article, props.categories, isLoaded]);
+
+        setFormState({
+            url: article.url,
+            title: article.name,
+            publisher: article.publisher,
+            description: article.description,
+            categories: temp,
+        });
+    }, [article, isLoaded, props.categories]);
+
+    useEffect(() => {
+        if (article) {
+            getActiveCategories();
+        }
+    }, [article, getActiveCategories]);
 
     useEffect(() => {
         formSchema.isValid(formState).then((valid) => {
@@ -125,10 +135,15 @@ const EditForm = (props) => {
         e.preventDefault();
         //console.log(formState);
         editArticle(props.match.params.id, formState);
+
+        if (article) {
+            getActiveCategories();
+        }
     };
 
     return (
         <Container className="dashboard">
+            <Header />
             <Grid columns={2} divided>
                 <Grid.Row>
                     <Sidebar />
@@ -144,24 +159,12 @@ const EditForm = (props) => {
                             </p>
                             <Form onSubmit={submitForm}>
                                 <Form.Field>
-                                    {errorState.url ? (
-                                        <p className="error">
-                                            {errorState.url}
-                                        </p>
-                                    ) : null}
-                                    <Form.Input
-                                        label="Url"
-                                        placeholder="https://"
-                                        type="text"
-                                        id="url"
-                                        name="url"
-                                        onChange={inputChange}
-                                        value={formState.url}
-                                    />
-                                </Form.Field>
-                                <Form.Field>
                                     {errorState.title ? (
                                         <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
                                             {errorState.title}
                                         </p>
                                     ) : null}
@@ -176,8 +179,33 @@ const EditForm = (props) => {
                                     />
                                 </Form.Field>
                                 <Form.Field>
+                                    {errorState.url ? (
+                                        <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
+                                            {errorState.url}
+                                        </p>
+                                    ) : null}
+                                    <Form.Input
+                                        label="Url"
+                                        placeholder="https://"
+                                        type="text"
+                                        id="url"
+                                        name="url"
+                                        onChange={inputChange}
+                                        value={formState.url}
+                                    />
+                                </Form.Field>
+
+                                <Form.Field>
                                     {errorState.publisher ? (
                                         <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
                                             {errorState.publisher}
                                         </p>
                                     ) : null}
@@ -225,6 +253,10 @@ const EditForm = (props) => {
                                 <Form.Field>
                                     {errorState.description ? (
                                         <p className="error">
+                                            <i
+                                                aria-hidden="true"
+                                                className="small red cancel icon"
+                                            ></i>
                                             {errorState.description}
                                         </p>
                                     ) : null}
@@ -242,14 +274,14 @@ const EditForm = (props) => {
                                 </Button>
                             </Form>
                         </Grid>
-                        <pre>
+                        {/* <pre>
                             Form Values: <br />
                             {JSON.stringify(formState, null, 2)}
                         </pre>
                         <pre>
                             Edit Response Values: <br />
                             {JSON.stringify(article, null, 2)}
-                        </pre>
+                        </pre> */}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

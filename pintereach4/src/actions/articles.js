@@ -127,7 +127,10 @@ export const editArticle = (id, values) => (dispatch) => {
         })
         .then((res) => {
             //console.log("axios result", res);
-            dispatch({ type: EDIT_ARTICLE, payload: "Article edited." });
+            dispatch({
+                type: EDIT_ARTICLE,
+                payload: { article: res.data, message: "Article edited." },
+            });
         })
         .catch((err) => {
             console.log("Err is: ", err);

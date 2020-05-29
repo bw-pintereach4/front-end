@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Container, Grid, Card, Message } from "semantic-ui-react";
 import Sidebar from "./Sidebar";
+import Header from "./Header";
 
 import { getArticlesById } from "../actions/articles";
 import { deleteArticle } from "../actions/articles";
@@ -22,6 +23,7 @@ const ArticlesByCategory = (props) => {
 
     return (
         <Container className="dashboard">
+            <Header />
             <Grid columns={2} divided>
                 <Grid.Row>
                     <Sidebar />
@@ -54,7 +56,7 @@ const ArticlesByCategory = (props) => {
                                                           )}
                                                       />
                                                       <div className="card-buttons">
-                                                          <span
+                                                          <a
                                                               type="button"
                                                               href={`/edit-article/${article.id}`}
                                                           >
@@ -62,8 +64,9 @@ const ArticlesByCategory = (props) => {
                                                                   aria-hidden="true"
                                                                   className="brown edit circular inverted icon"
                                                               ></i>
-                                                          </span>
+                                                          </a>
                                                           <span
+                                                              type="button"
                                                               onClick={() => {
                                                                   deleteArticle(
                                                                       article.id
@@ -92,7 +95,7 @@ const ArticlesByCategory = (props) => {
 
 // hook up the connect to our store
 const mapStateToProps = (state) => {
-    console.log("article by category state", state);
+    //console.log("article by category state", state);
     return {
         isLoading: state.articles.isLoading,
         isLoaded: state.articles.isLoaded,

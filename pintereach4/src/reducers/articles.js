@@ -50,13 +50,20 @@ export function articles(state = initialState, action) {
                 isLoaded: true,
             };
         case POST_ARTICLE:
-        case EDIT_ARTICLE:
         case DELETE_ARTICLE:
             return {
                 ...state,
                 isLoading: false,
                 isLoaded: true,
                 message: action.payload,
+            };
+        case EDIT_ARTICLE:
+            return {
+                ...state,
+                isLoading: false,
+                isLoaded: true,
+                article: action.payload.article,
+                message: action.payload.message,
             };
         case GET_CATEGORIES:
             return {

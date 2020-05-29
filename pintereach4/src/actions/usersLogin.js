@@ -9,11 +9,16 @@ export const checkUser = (values, props) => (dispatch) => {
     axiosWithAuth()
         .post("/auth/login", values)
         .then((res) => {
-            //console.log(res);
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("user", res.data.userId);
             props.history.push("/articles");
-            dispatch({ type: SIGN_IN_SUCCESS, payload: "Successfully Login." });
+            dispatch({
+                type: SIGN_IN_SUCCESS,
+                payload: {
+                    message: "Successfully Login.",
+                    user: res.data.welcome,
+                },
+            });
         })
         .catch((err) => {
             console.log("Err is: ", err);
