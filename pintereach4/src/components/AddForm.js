@@ -235,7 +235,7 @@ const AddForm = ({
                                 </Button>
                             </Form>
                         </Grid>
-                        <pre>{JSON.stringify(formState, null, 2)}</pre>
+                        {/* <pre>{JSON.stringify(formState, null, 2)}</pre> */}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
