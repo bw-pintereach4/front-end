@@ -16,7 +16,7 @@ export const registerUser = (values) => (dispatch) => {
             });
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: SIGN_UP_ERROR,
                 payload:

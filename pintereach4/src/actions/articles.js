@@ -1,7 +1,7 @@
 import { axiosWithAuth } from "../util/axiosWithAuth";
 
-export const ACTION_START = "SIGN_IN_START";
-export const ACTION_ERROR = "SIGN_IN_ERROR";
+export const ACTION_START = "ACTION_START";
+export const ACTION_ERROR = "ACTION_ERROR";
 export const GET_ARTICLE = "GET_ARTICLE";
 export const GET_ARTICLES = "GET_ARTICLES";
 export const GET_ARTICLES_BY_ID = "GET_ARTICLES_BY_ID";
@@ -20,7 +20,7 @@ export const getArticles = () => (dispatch) => {
             dispatch({ type: GET_ARTICLES, payload: res.data });
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
                 payload: "Error in get request articles.",
@@ -38,7 +38,7 @@ export const getArticleById = (id) => (dispatch) => {
             dispatch({ type: GET_ARTICLE, payload: res.data });
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
                 payload: "Error in get request article by id.",
@@ -57,7 +57,7 @@ export const getArticlesById = (id) => (dispatch) => {
             dispatch({ type: GET_ARTICLES_BY_ID, payload: res.data });
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
                 payload:
@@ -78,7 +78,7 @@ export const getCategories = () => (dispatch) => {
             dispatch({ type: GET_CATEGORIES, payload: res.data });
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
                 payload: "Error in fetching categories.",
@@ -105,7 +105,7 @@ export const postArticle = (values) => (dispatch) => {
             dispatch({ type: POST_ARTICLE, payload: "Article posted." });
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
                 payload: "Error in post request articles",
@@ -133,7 +133,7 @@ export const editArticle = (id, values) => (dispatch) => {
             });
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
                 payload: "Error in post edit article",
@@ -150,7 +150,7 @@ export const deleteArticle = (id) => (dispatch) => {
             window.location.reload(true);
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: ACTION_ERROR,
                 payload: "Error in post delete articles",

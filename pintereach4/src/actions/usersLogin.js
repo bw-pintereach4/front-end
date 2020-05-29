@@ -21,7 +21,7 @@ export const checkUser = (values, props) => (dispatch) => {
             });
         })
         .catch((err) => {
-            console.log("Err is: ", err);
+            //console.log("Err is: ", err);
             dispatch({
                 type: SIGN_IN_ERROR,
                 payload: "Invalid login/password.",
