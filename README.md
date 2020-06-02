@@ -2,4 +2,4 @@
 
 **default user**\
 user: test1\
-password: test
+password: test1
